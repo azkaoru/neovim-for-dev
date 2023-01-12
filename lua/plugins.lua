@@ -353,6 +353,36 @@ function M.setup()
        end,
     }
 
+   -- quickrun
+   use {
+        "thinca/vim-quickrun",
+        requires = { { "lambdalisue/vim-quickrun-neovim-job" } },
+        setup = function()
+                vim.g.quickrun_config = {
+                        ["_"] = {
+                                ["runner"] = "neovim_job",
+                                ["outputter/buffer/opener"] = "new",
+                                ["outputter/buffer/close_on_empty"] = 1,
+                        },
+                        ["docgen"] = {
+                                ["command"] = "asciidoctor",
+                                ["exec"] = "%c %s",
+                        },
+                        ["docview"] = {
+                                ["command"] = "xdg-open",
+                                ["exec"] = "%c %S:t:r.html",
+                        },
+                        ["rust"] = {
+                                ["exec"] = "cargo run",
+                        },
+                }
+
+                        vim.keymap.set("n", "<leader>r", "<Nop>")
+                        vim.keymap.set("n", "<leader>rr", ":QuickRun<CR>", { silent = true })
+                end,
+    }
+
+
     -- Bootstrap Neovim
     if packer_bootstrap then
       print "Restart Neovim required after installation!"
