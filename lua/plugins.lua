@@ -208,6 +208,12 @@ function M.setup()
     }
 
 
+    -- Telescope used to fuzzy search files
+    use {
+      'nvim-telescope/telescope.nvim', tag = '0.1.0',
+      requires = { {'nvim-lua/plenary.nvim'} }
+    }
+
     -- User interface
     use {
       "stevearc/dressing.nvim",
@@ -220,13 +226,6 @@ function M.setup()
         }
       end,
       disable = true,
-    }
-
-    --use { "nvim-telescope/telescope.nvim", module = "telescope", as = "telescope" }
-    -- Telescope used to fuzzy search files
-    use {
-      'nvim-telescope/telescope.nvim', tag = '0.1.0', module = "telescope", as = "telescope",
-      requires = { {'nvim-lua/plenary.nvim'} }
     }
 
     -- Completion
