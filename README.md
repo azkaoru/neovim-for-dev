@@ -7,7 +7,8 @@
 ```
 curl https://github.com/neovim/neovim/releases/download/v0.8.2/nvim-linux64.tar.gz -OL
 tar xzvf nvim-linux64.tar.gz
-mv ./nvim-linux64/bin/nvim /usr/local/bin
+sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
+sudo sudo -r nvim-linux64/share/nvim /usr/share/
 ```
 
 * Go-Mono font
@@ -18,12 +19,42 @@ https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Go-Mono.zip
 
 そしてrebootし、ターミナルの設定よりプロファイルを作成し、プロファイルでフォントが指定できるので、Go-Monoのフォントを指定する。
 
+* stow
+
+```
+sudo dnf install epel-release
+sudo dnf -y install stow
+```
 
 ## install 
+
 
 ```
 source install.sh
 ```
+
+start neovim
+```
+nv
+```
+
+Can't open file /share/nvim/syntax/syntax.vim
+
+```
+mkdir -p .config/nvim
+export VIMRUNTIME="/usr/share/nvim/runtime"
+```
+
+reinstall
+```
+source install.sh
+```
+
+start neovim
+```
+nv
+```
+
 
 
 ### typescript & javascript deubg

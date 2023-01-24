@@ -1,15 +1,17 @@
 #!/usr/bin/sh
 
-NVIM_BEGINNER=~/.config/nvim-beginner
-export NVIM_BEGINNER
+export VIMRUNTIME="/usr/share/nvim/runtime"
 
-rm -rf $NVIM_BEGINNER
+NVIM_DEV=~/.config/nvim-dev
+export NVIM_DEV
 
-mkdir -p $NVIM_BEGINNER/share
-mkdir -p $NVIM_BEGINNER/nvim
+rm -rf $NVIM_DEV
 
-stow --restow --target=$NVIM_BEGINNER/nvim .
+mkdir -p $NVIM_DEV/share
+mkdir -p $NVIM_DEV/nvim
 
-alias nvb='XDG_DATA_HOME=$NVIM_BEGINNER/share XDG_CONFIG_HOME=$NVIM_BEGINNER nvim'
+stow --restow --target=$NVIM_DEV/nvim .
 
-export nvb
+alias nv='XDG_DATA_HOME=$NVIM_DEV/share XDG_CONFIG_HOME=$NVIM_DEV nvim'
+
+export nv 
