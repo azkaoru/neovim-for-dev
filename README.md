@@ -1,5 +1,24 @@
 # neovim-for-dev
 
+# requirement
+
+* neovim
+
+```
+curl https://github.com/neovim/neovim/releases/download/v0.8.2/nvim-linux64.tar.gz -OL
+tar xzvf nvim-linux64.tar.gz
+mv ./nvim-linux64/bin/nvim /usr/local/bin
+```
+
+* Go-Mono font
+
+https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Go-Mono.zip
+
+展開したファイルを/usr/share/fonts/go-monoに展開する。そのあとにfc-cache -vを実行してgo-mono配下を読み込みされているのを確認する。
+
+そしてrebootし、ターミナルの設定よりプロファイルを作成し、プロファイルでフォントが指定できるので、Go-Monoのフォントを指定する。
+
+
 ## install 
 
 ```
