@@ -332,8 +332,17 @@ function M.setup()
        end,
     }
 
-     -- DAP for debugging
+    -- DAP for debugging
     use { 'mfussenegger/nvim-dap' }
+
+    -- DAP for javascript 
+    use { "mxsdev/nvim-dap-vscode-js" }
+
+    use {
+      "microsoft/vscode-js-debug",
+      opt = true,
+      run = "npm install --legacy-peer-deps && npm run compile",
+    }
 
     -- UI for DAP
     use { 
@@ -351,6 +360,30 @@ function M.setup()
          vim.cmd[[colorscheme dracula]]
        end,
     }
+
+
+  use{
+      'jose-elias-alvarez/null-ls.nvim',
+      --requires = { "nvim-lua/plenary.nvim" },
+      config = function()
+    	  require("config.null-ls").setup()
+      end,
+  }
+
+  use {
+      'MunifTanjim/prettier.nvim',
+      config = function()
+    	require("config.prettierd").setup()
+      end,
+   }
+
+   use {
+      'glepnir/lspsaga.nvim',
+      branch = "main",
+      config = function()
+	require('config.lspsaga').setup()
+      end,
+   }
 
    -- quickrun
    use {
