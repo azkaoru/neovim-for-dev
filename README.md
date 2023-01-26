@@ -26,6 +26,22 @@ sudo dnf install epel-release
 sudo dnf -y install stow
 ```
 
+* telescope depends
+
+** rg
+
+```
+su -
+dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
+dnf -y install ripgrep
+```
+
+** fd
+
+```
+sudo dnf install -y fd-find
+```
+
 ## install 
 
 
@@ -55,7 +71,59 @@ start neovim
 nv
 ```
 
+### shell development
 
+* install formatting tools
+
+** prettierd
+
+```
+curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo  -O
+sudo mv yarn.repo /etc/yum.repos.d/
+su -
+rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+dnf -y install yarn
+yarn global add prettier
+```
+
+** shfmt
+
+```
+curl https://github.com/mvdan/sh/releases/download/v3.6.0/shfmt_v3.6.0_linux_amd64 -LO
+sudo mv shfmt_v3.6.0_linux_amd64  /usr/local/bin/shfmt
+sudo mv chmod +x  /usr/local/bin/shfmt
+```
+
+* diagnostics tools
+
+** shellcheck
+```
+sudo dnf -y install ShellCheck
+```
+
+### ansible 
+
+* install tools
+
+** ansible-lint
+
+```
+pip3 install ansible-lint
+```
+
+** yamllint
+
+```
+pip3 install yamllint
+```
+
+** yamlfmt
+
+```
+curl https://github.com/google/yamlfmt/releases/download/v0.7.1/yamlfmt_0.7.1_Linux_x86_64.tar.gz -LO
+tar -zxvf yamlfmt_0.7.1_Linux_x86_64.tar.gz
+sudo mv yamlfmt /usr/local/bin
+```
 
 ### typescript & javascript deubg
 
