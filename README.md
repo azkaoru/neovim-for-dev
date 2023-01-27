@@ -4,16 +4,36 @@
 
 * neovim
 
+fedora & rockylinux
 ```
 curl https://github.com/neovim/neovim/releases/download/v0.8.2/nvim-linux64.tar.gz -OL
 tar xzvf nvim-linux64.tar.gz
 sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
-sudo sudo -r nvim-linux64/share/nvim /usr/share/
+sudo cp -r nvim-linux64/share/nvim /usr/share/
 ```
+
+rhel8 error
+
+```
+nvim: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by nvim)
+```
+
+
+
 
 * Go-Mono font
 
+
 https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Go-Mono.zip
+
+```
+curl https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Go-Mono.zip -LO
+sudo mkdir -p /usr/share/fonts/go-mono
+sudo mv Go-Mono.zip  /usr/share/fonts/go-mono
+cd /usr/share/fonts/go-mono
+sudo unzip Go-Mono.zip
+sudo fc-cache -v
+```
 
 展開したファイルを/usr/share/fonts/go-monoに展開する。そのあとにfc-cache -vを実行してgo-mono配下を読み込みされているのを確認する。
 
