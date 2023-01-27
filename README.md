@@ -1,5 +1,74 @@
 # neovim-for-dev
 
+support os: rocky9
+
+* 日本後入力メモ
+
+RockyLinux or RHEL/Centosで全角、半角キーで日本語入力の切り替えを実施する場合の手順
+
+mozcをインストールする。
+
+```
+dnf install mozc ibus-mozc
+```
+
+リブート
+
+```
+systemctl reboot
+```
+
+以下の手順を参考に日本語(Mozc)を利用するにあたり、mozcとibus-mozcをインストールする。
+
+
+https://pigeonet.hatenadiary.jp/entry/2019/01/05/020345
+
+
+なお、rocky9用のmozc,ibus-mozcは存在しないため、rocky9は以下で対応する。rhel8の場合は上記の手順でインストールできた。
+
+https://furuya7.hatenablog.com/entry/2022/06/23/142859#-----------------------------------------------------------
+
+
+```
+curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/m/mozc-2.25.4190.102-5.fc34.x86_64.rpm -LO
+
+curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/p/protobuf-3.14.0-3.fc34.x86_64.rpm -LO
+
+curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/x/xemacs-filesystem-21.5.34-39.20200331hge2ac728aa576.fc34.noarch.rpm -LO
+
+curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/i/ibus-mozc-2.25.4190.102-5.fc34.x86_64.rpm -LO
+
+dnf install qt5-qtbase
+
+dnf install qt5-qtbase-gui
+
+dnf install gtk2-2.24.33-7.el9.i686
+
+rpm -ivh protobuf-3.14.0-3.fc34.x86_64.rpm
+
+rpm -ivh xemacs-filesystem-21.5.34-39.20200331hge2ac728aa576.fc34.noarch.rpm
+
+rpm -ivh mozc-2.25.4190.102-5.fc34.x86_64.rpm
+
+rpm -ivh ibus-mozc-2.25.4190.102-5.fc34.x86_64.rpm
+```
+
+mozcとibus-mozcインストール環境後、rebootする。
+
+上記のリンクに従い、入力ソースに日本語(Mozc)ができたら、日本語（かな）は削除して、入力ソースに以下の２項目が存在するようにする
+
+* 日本語(ja)
+* 日本語(Mozc)
+
+この設定が、完了したら、rebootする
+
+reboot後にターミナルから全角・半角キーで、日本語入力を行ってみる。
+
+意図せず、ポップアップがでる場合は以下のSTEP4設定を行う。
+
+* https://rainbow-engine.com/centos7-japanese-input/
+
+
 # requirement
 
 * neovim
@@ -12,13 +81,13 @@ sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
 sudo cp -r nvim-linux64/share/nvim /usr/share/
 ```
 
-rhel8 error
+rhel8 は次のエラーが発生するのでインストールできない。 
 
 ```
 nvim: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by nvim)
 ```
 
-
+イカの方法でインストールできるが、この方法の場合は、pythonのsite-pakcageにインストールされるが、インストール後にnvimコマンド起動できない
 
 
 * Go-Mono font
@@ -62,6 +131,8 @@ dnf -y install ripgrep
 sudo dnf install -y fd-find
 ```
 
+rhel8だとfd-findパッケージみつからない。
+
 ## install 
 
 
@@ -74,17 +145,6 @@ start neovim
 nv
 ```
 
-Can't open file /share/nvim/syntax/syntax.vim
-
-```
-mkdir -p .config/nvim
-export VIMRUNTIME="/usr/share/nvim/runtime"
-```
-
-reinstall
-```
-source install.sh
-```
 
 start neovim
 ```
@@ -171,5 +231,7 @@ Download the React DevTools for a better development experience: https://reactjs
 ```
 
 デバックを再開すると、デバックできるようになる。
+
+
 
 
