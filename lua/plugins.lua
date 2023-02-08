@@ -377,6 +377,19 @@ function M.setup()
       end,
    }
 
+  -- trouble.nvim
+  use {
+    "folke/trouble.nvim",
+    event = "BufReadPre",
+    wants = "nvim-web-devicons",
+    cmd = { "TroubleToggle", "Trouble" },
+    config = function()
+      require("trouble").setup {
+        use_diagnostic_signs = true,
+      }
+    end,
+  }
+
    use {
       'glepnir/lspsaga.nvim',
       branch = "main",
