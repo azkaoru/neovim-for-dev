@@ -75,7 +75,7 @@ reboot後にターミナルから全角・半角キーで、日本語入力を�
 
 fedora & rockylinux
 ```
-curl https://github.com/neovim/neovim/releases/download/v0.8.2/nvim-linux64.tar.gz -OL
+curl https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.tar.gz -OL
 tar xzvf nvim-linux64.tar.gz
 sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
 sudo cp -r nvim-linux64/share/nvim /usr/share/
@@ -149,6 +149,15 @@ nv
 start neovim
 ```
 nv
+```
+
+add ~/.bashrc
+
+```
+export VIMRUNTIME="/usr/share/nvim/runtime"
+NVIM_DEV=~/.config/nvim-dev
+export NVIM_DEV
+alias nv='XDG_DATA_HOME=$NVIM_DEV/share XDG_CONFIG_HOME=$NVIM_DEV nvim'
 ```
 
 ### shell development
