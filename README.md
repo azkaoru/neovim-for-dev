@@ -133,6 +133,15 @@ sudo dnf install -y fd-find
 
 rhel8だとfd-findパッケージみつからない。
 
+** for clipboard
+
+neovimのコピー＆ポーストは、OSのクリップボードを利用するための設定。
+
+```
+sudo dnf -y install xclip xsel
+```
+
+
 ## install 
 
 
@@ -158,6 +167,8 @@ export VIMRUNTIME="/usr/share/nvim/runtime"
 NVIM_DEV=~/.config/nvim-dev
 export NVIM_DEV
 alias nv='XDG_DATA_HOME=$NVIM_DEV/share XDG_CONFIG_HOME=$NVIM_DEV nvim'
+# コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
+export DISPLAY=":1"
 ```
 
 ### shell development

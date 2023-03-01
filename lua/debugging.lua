@@ -1,5 +1,6 @@
 -- fetch the dap plugin
 local dap = require('dap')
+
 -- Add adapter to delve
 dap.adapters.delve = {
   type = 'server',
