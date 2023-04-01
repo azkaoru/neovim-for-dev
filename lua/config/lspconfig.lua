@@ -22,6 +22,8 @@ function M.setup()
     }
     lspconfig.tsserver.setup {}
 
+    lspconfig.lua_ls.setup {}
+
 end
 
 return M
