@@ -410,7 +410,7 @@ function M.setup()
 					},
 					["docgen"] = {
 						["command"] = "asciidoctor",
-						["exec"] = "%c %s",
+						["exec"] = "%c %s;xdg-open %S:t:r.html",
 					},
 					["docview"] = {
 						["command"] = "xdg-open",
