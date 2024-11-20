@@ -6,11 +6,13 @@ support os: rocky9
 
 RockyLinux or RHEL/Centosで全角、半角キーで日本語入力の切り替えを実施する場合の手順
 
-mozcをインストールする。
+anthyをインストールする。
 
 ```
-dnf install mozc ibus-mozc
+dnf install ibus-anthy
 ```
+
+fedoraの場合で上記インストールできない場合は、ibus-mozcをインストールすること。
 
 リブート
 
@@ -18,42 +20,14 @@ dnf install mozc ibus-mozc
 systemctl reboot
 ```
 
-以下の手順を参考に日本語(Mozc)を利用するにあたり、mozcとibus-mozcをインストールする。
+# 日本語化
+
+anthyの場合
+
+GUIのSettings -> keyboard -> input source で、日本語(anthy)を追加する。
 
 
-https://pigeonet.hatenadiary.jp/entry/2019/01/05/020345
-
-
-なお、rocky9用のmozc,ibus-mozcは存在しないため、rocky9は以下で対応する。rhel8の場合は上記の手順でインストールできた。
-
-https://furuya7.hatenablog.com/entry/2022/06/23/142859#-----------------------------------------------------------
-
-
-```
-curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/m/mozc-2.25.4190.102-5.fc34.x86_64.rpm -LO
-
-curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/p/protobuf-3.14.0-3.fc34.x86_64.rpm -LO
-
-curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/x/xemacs-filesystem-21.5.34-39.20200331hge2ac728aa576.fc34.noarch.rpm -LO
-
-curl https://rpmfind.net/linux/fedora/linux/releases/34/Everything/x86_64/os/Packages/i/ibus-mozc-2.25.4190.102-5.fc34.x86_64.rpm -LO
-
-dnf install qt5-qtbase
-
-dnf install qt5-qtbase-gui
-
-dnf install gtk2-2.24.33-7.el9.i686
-
-rpm -ivh protobuf-3.14.0-3.fc34.x86_64.rpm
-
-rpm -ivh xemacs-filesystem-21.5.34-39.20200331hge2ac728aa576.fc34.noarch.rpm
-
-rpm -ivh mozc-2.25.4190.102-5.fc34.x86_64.rpm
-
-rpm -ivh ibus-mozc-2.25.4190.102-5.fc34.x86_64.rpm
-```
-
-mozcとibus-mozcインストール環境後、rebootする。
+ibuz-mozcの場合
 
 上記のリンクに従い、入力ソースに日本語(Mozc)ができたら、日本語（かな）は削除して、入力ソースに以下の２項目が存在するようにする
 
@@ -63,6 +37,8 @@ mozcとibus-mozcインストール環境後、rebootする。
 この設定が、完了したら、rebootする
 
 reboot後にターミナルから全角・半角キーで、日本語入力を行ってみる。
+
+ibuz-mozcの場合
 
 意図せず、ポップアップがでる場合は以下のSTEP4設定を行う。
 
@@ -86,8 +62,6 @@ rhel8 は次のエラーが発生するのでインストールできない。
 ```
 nvim: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by nvim)
 ```
-
-イカの方法でインストールできるが、この方法の場合は、pythonのsite-pakcageにインストールされるが、インストール後にnvimコマンド起動できない
 
 
 * Go-Mono font
@@ -201,6 +175,32 @@ sudo mv chmod +x  /usr/local/bin/shfmt
 sudo dnf -y install ShellCheck
 ```
 
+### go
+
+* intall go, gopls
+
+goとgo langage serverであるgoplsをインストールする。
+
+```
+sudo dnf install go golang-x-tools-gopls
+```
+
+go開発時は、nvでneovim起動後、ctrl + dでdap-uiが起動する。
+
+ctrl + b でカレントの行にブレイクポイントを設定できる。
+
+：masonを実行して、delveをインストールする。
+
+devleがインストール後、debug実行可能になる。
+
+debug実行する場合は F5を実行する。
+
+step over : ,so
+step into : ,si
+step out : ,sr
+
+デバック再実行はdlで実行可能。
+
 ### ansible 
 
 * install tools
@@ -224,6 +224,7 @@ curl https://github.com/google/yamlfmt/releases/download/v0.7.1/yamlfmt_0.7.1_Li
 tar -zxvf yamlfmt_0.7.1_Linux_x86_64.tar.gz
 sudo mv yamlfmt /usr/local/bin
 ```
+
 
 ### typescript & javascript deubg
 
@@ -251,6 +252,82 @@ Download the React DevTools for a better development experience: https://reactjs
 ```
 
 デバックを再開すると、デバックできるようになる。
+
+
+
+# 備忘メモ
+
+## seach and confirm,replace
+
+press ,fg to live grep
+
+input search word
+
+Press C-q to pipe for quickfix list
+
+
+Press :cdo s/search word/replace word/gc
+
+
+##　ターミナルでtabを複数した際のコピー
+
+デフォルトでインストールされるvimが+clipboardではないため、tabでターミナルを複数開いてるときに、コピーして、ほかのタブでペースできない。
+
+以下の.vimrcを作成し、,cでコピーできるようになる。ペーストは ctrl + shift + v
+
+```
+function! RangeToClipboard() range
+  let [line1, col1] = getpos("'<")[1:2]
+  let [line2, col2] = getpos("'>")[1:2]
+  let lines = getline(line1, line2)
+  " handle incl/excl last char
+  let lines[-1] = lines[-1][: col2 - (&sel == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  silent exec system('xclip -sel c', lines)
+endfunction
+
+let mapleader = ","
+vnoremap <leader>c :<c-u>call RangeToClipboard()<CR>
+```
+
+https://blog.dnmfarrell.com/post/how-to-copy-a-vim-buffer-to-the-clipboard/
+
+## ターミナルでブラウザを利用する。
+
+
+```
+yum -y install w3m
+```
+
+
+webページをコピー・ペーストしない場合は、ESC + e で、vimでエディとできるようになるので、該当行をshift v で選択して、,cでコピーできる
+
+
+## Github Copilotの利用。
+
+copilot.nvimとCopilotChat.nvimをインストールした。
+
+予めgithub cli(gh)をインストールすること。
+
+* https://github.com/cli/cli/releases
+
+また、github Copilotを利用するにあたり、有償で契約が必要である。
+
+
+## github pullrequest Check
+
+.bashrcに以下を追加する。
+
+```
+alias gpr='export GITHUB_TOKEN=$(gh auth token);GITHUB_REPONAME=$(ghq list | grep github.com | peco | cut -c 12- );nv -c ":Octo pr list $GITHUB_REPONAME"'
+```
+
+予めgh auth login を実行し、githubのアクセストークンを取得できる状態にしておくこと。
+
+
+gprを実行すると、githubのリポジトリを選択できるようになり、選択後にpullrequestの一覧が表示される。
+
+pullrequestの一覧から、該当のpullrequestを選択すると、該当のpullrequestの内容が表示されるので、":Octo pr changes"を実行すると変更内容が表示される。その状態で",ce"を実行すると、CopilotChatで変更内容の説明が表示される。
 
 
 

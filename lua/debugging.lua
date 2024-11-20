@@ -35,6 +35,8 @@ dap.configurations.go = {
     program = "./${relativeFileDirname}"
   } 
 }
+
+
 -- Setup DapUI
 local dapui = require('dapui')
 -- set it up see more configs in their repo

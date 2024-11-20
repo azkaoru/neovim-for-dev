@@ -25,11 +25,11 @@ map('n', '<C-c>', [[:lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint Co
 -- Press CTRL + l to toggle Logpoint
 map('n', '<C-l>', [[:lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log Point Msg: '))<CR>]], {})
 -- Pressing F10 to step over
-map('n', '<F10>', [[:lua require'dap'.step_over()<CR>]], {})
+map('n', '<leader>so', [[:lua require'dap'.step_over()<CR>]], {})
 -- Pressing F11 to step into
-map('n', '<F11>', [[:lua require'dap'.step_into()<CR>]], {})
+map('n', '<leader>si', [[:lua require'dap'.step_into()<CR>]], {})
 -- Pressing F12 to step out
-map('n', '<F12>', [[:lua require'dap'.step_out()<CR>]], {})
+map('n', '<leader>sr', [[:lua require'dap'.step_out()<CR>]], {})
 -- Press F6 to open REPL
 map('n', '<F6>', [[:lua require'dap'.repl.open()<CR>]], {})
 -- Press dl to run last ran configuration (if you used f5 before it will re run it etc)

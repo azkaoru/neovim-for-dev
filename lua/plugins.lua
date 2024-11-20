@@ -209,7 +209,7 @@ function M.setup()
 
 		-- Telescope used to fuzzy search files
 		use {
-			'nvim-telescope/telescope.nvim', tag = '0.1.0',
+			'nvim-telescope/telescope.nvim', branch = '0.1.x',
 			requires = { { 'nvim-lua/plenary.nvim' } }
 		}
 
@@ -346,7 +346,7 @@ function M.setup()
 		-- UI for DAP
 		use {
 			"rcarriga/nvim-dap-ui",
-			requires = { "mfussenegger/nvim-dap" },
+			requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 			config = function()
 				require("config.dapui").setup()
 			end,
@@ -410,11 +410,11 @@ function M.setup()
 					},
 					["docgen"] = {
 						["command"] = "asciidoctor",
-						["exec"] = "%c %s;xdg-open %S:t:r.html",
+						["exec"] = "%c %s;xdg-open %S:r.html",
 					},
 					["docview"] = {
 						["command"] = "xdg-open",
-						["exec"] = "%c %S:t:r.html",
+						["exec"] = "%c %s:r.html",
 					},
 					["rust"] = {
 						["exec"] = "cargo run",
@@ -426,7 +426,86 @@ function M.setup()
 			end,
 		}
 
+		-- vim-sonictemplate
+		use {
+			"mattn/vim-sonictemplate",
+			setup = function()
+				vim.g.sonictemplate_vim_template_dir = os.getenv("HOME") .. "/.sonictemplate"
+			end,
+		}
 
+		--  toggleterm
+		use {
+			"akinsho/toggleterm.nvim",
+			config = function()
+				require("toggleterm").setup({
+					size = 20,
+					open_mapping = [[<c-\>]],
+				})
+				--vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]], { silent = true })
+			end,
+		}
+		use {
+			"goolord/alpha-nvim",
+			-- dependencies = { 'echasnovski/mini.icons' },
+			dependencies = { 'nvim-tree/nvim-web-devicons' },
+			config = function()
+				--require('config.alpha-default').setup()
+				require('config.alpha-mycustom').setup()
+			end,
+		}
+
+		use {
+			"github/copilot.vim",
+		}
+		use {
+			"CopilotC-Nvim/CopilotChat.nvim",
+			branch = "canary",
+			dependencies = {
+				{ "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+				{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+			},
+			build = "make tiktoken", -- Only on MacOS or Linux
+			opts = {
+				debug = true, -- Enable debugging
+				-- See Configuration section for rest
+			},
+			config = function()
+				require("config/copilot-chat").setup()
+			end,
+		}
+
+use {
+  'pwntester/octo.nvim',
+  requires = {
+    'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope.nvim',
+    -- OR 'ibhagwan/fzf-lua',
+    'nvim-tree/nvim-web-devicons',
+  },
+  config = function ()
+    require"octo".setup()
+  end
+}
+
+
+		-- use {
+		-- 	"zbirenbaum/copilot.lua",
+		-- 	cmd = "Copilot",
+		-- 	config = function()
+		-- 		require("copilot").setup({
+		-- 					suggestion = { enabled = false },
+		-- 					panel = { enabled = false },
+		-- 		})
+		-- 	end,
+		-- }
+		-- use {
+		-- 	"zbirenbaum/copilot-cmp",
+		-- 	after = { "copilot.lua"},
+		-- 	config = function()
+		-- 		require("copilot_cmp").setup()
+		-- 	end
+		-- }
 		-- Bootstrap Neovim
 		if packer_bootstrap then
 			print "Restart Neovim required after installation!"

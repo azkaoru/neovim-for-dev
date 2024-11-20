@@ -15,9 +15,9 @@ function M.setup()
 
   -- empty setup using defaults
   require("nvim-tree").setup({
-    -- deprecated 
-    -- open_on_setup = true,
-    -- ignore_buffer_on_setup = true,
+    view = { 
+      adaptive_size = true,
+    },
   })
 
   vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })

@@ -1,0 +1,10 @@
+* foobarの実行
++
+foobarを実行する。
++
+[source%nowrap]
+.foobarの実行
+----
+# foobar⏎
+----
+

@@ -17,3 +17,7 @@ export nv
 
 # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
 export DISPLAY=":1"
+
+# copy mycustom soncictemplate
+rm -fr ~/.sonictemplate
+cp -pr sonictemplate ~/.sonictemplate

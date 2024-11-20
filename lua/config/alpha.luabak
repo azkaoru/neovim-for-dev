@@ -37,12 +37,12 @@ function M.setup()
 
 	dashboard.section.header.val = logo
 
-	dashboard.section.buttons.val = {
-        dashboard.button("<Leader>ff", "  Find File"),
-	dashboard.button("<Leader>fg", "  Grep File"),
-	dashboard.button("<Leader>ps", "  Start System Explorer"),
-	dashboard.button("q", "  Quit", ":qa<cr>"),
-	}
+--	dashboard.section.buttons.val = {
+--		dashboard.button("<Leader>ff", "  Find File"),
+--		dashboard.button("<Leader>fg", "  Grep File"),
+--		dashboard.button("<Leader>ps", "  Start System Explorer"),
+--		dashboard.button("q", "  Quit", ":qa<cr>"),
+--	}
 
 
 	-- Set footer

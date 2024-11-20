@@ -46,6 +46,26 @@ function M.setup()
   }
 
 
+-- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ansible
+dap.adapters.ansible = {
+  type = "executable",
+  command = "python", -- or "/path/to/virtualenv/bin/python",
+  args = { "-m", "ansibug", "dap" },
+}
+
+local ansibug_configurations = {
+  {
+    type = "ansible",
+    request = "launch",
+    name = "Debug playbook",
+    playbook = "${file}"
+  },
+}
+
+dap.configurations["yaml.ansible"] = ansibug_configurations
+
+
+
   require("dap-vscode-js").setup ({
     node_path = "node",
     debugger_path = DEBUGGER_PATH,
