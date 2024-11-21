@@ -1,12 +1,57 @@
 # neovim-for-dev
 
-## requirement
+support os: rocky9
+
+* 日本後入力メモ
+
+RockyLinux or RHEL/Centosで全角、半角キーで日本語入力の切り替えを実施する場合の手順
+
+anthyをインストールする。
+
+```
+dnf install ibus-anthy
+```
+
+fedoraの場合で上記インストールできない場合は、ibus-mozcをインストールすること。
+
+リブート
+
+```
+systemctl reboot
+```
+
+# 日本語化
+
+anthyの場合
+
+GUIのSettings -> keyboard -> input source で、日本語(anthy)を追加する。
+
+
+ibuz-mozcの場合
+
+上記のリンクに従い、入力ソースに日本語(Mozc)ができたら、日本語（かな）は削除して、入力ソースに以下の２項目が存在するようにする
+
+* 日本語(ja)
+* 日本語(Mozc)
+
+この設定が、完了したら、rebootする
+
+reboot後にターミナルから全角・半角キーで、日本語入力を行ってみる。
+
+ibuz-mozcの場合
+
+意図せず、ポップアップがでる場合は以下のSTEP4設定を行う。
+
+* https://rainbow-engine.com/centos7-japanese-input/
+
+
+# requirement
 
 * neovim
 
 fedora & rockylinux
 ```
-curl https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz -OL
+curl https://github.com/neovim/neovim/releases/download/v0.8.3/nvim-linux64.tar.gz -OL
 tar xzvf nvim-linux64.tar.gz
 sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
 sudo cp -r nvim-linux64/share/nvim /usr/share/
@@ -70,13 +115,6 @@ neovimのコピー＆ポーストは、OSのクリップボードを利用する
 sudo dnf -y install xclip xsel
 ```
 
-** github cli
-
-
-github cli(gh)をインストールする。
-
-* https://github.com/cli/cli/releases
-
 
 ## install 
 
@@ -90,6 +128,11 @@ start neovim
 nv
 ```
 
+
+start neovim
+```
+nv
+```
 
 add ~/.bashrc
 
@@ -228,10 +271,9 @@ Press :cdo s/search word/replace word/gc
 
 ##　ターミナルでtabを複数した際のコピー
 
-デフォルトでインストールされるvimが+clipboardではないため、tabでターミナルを複数開いてるときに、コピーして、ほかのタブでペースできない場合に、以下の手順で設定する。
+デフォルトでインストールされるvimが+clipboardではないため、tabでターミナルを複数開いてるときに、コピーして、ほかのタブでペースできない。
 
-
-以下の.vimrcを作成し、,ccでコピーできるようになる。ペーストは ctrl + shift + v
+以下の.vimrcを作成し、,cでコピーできるようになる。ペーストは ctrl + shift + v
 
 ```
 function! RangeToClipboard() range
@@ -245,16 +287,31 @@ function! RangeToClipboard() range
 endfunction
 
 let mapleader = ","
-vnoremap <leader>cc :<c-u>call RangeToClipboard()<CR>
+vnoremap <leader>c :<c-u>call RangeToClipboard()<CR>
 ```
 
 https://blog.dnmfarrell.com/post/how-to-copy-a-vim-buffer-to-the-clipboard/
+
+## ターミナルでブラウザを利用する。
+
+
+```
+yum -y install w3m
+```
+
+
+webページをコピー・ペーストしない場合は、ESC + e で、vimでエディとできるようになるので、該当行をshift v で選択して、,cでコピーできる
+
 
 ## Github Copilotの利用。
 
 copilot.nvimとCopilotChat.nvimをインストールした。
 
-なお、github Copilotを利用するにあたり、有償で契約が必要である。
+予めgithub cli(gh)をインストールすること。
+
+* https://github.com/cli/cli/releases
+
+また、github Copilotを利用するにあたり、有償で契約が必要である。
 
 
 ## github pullrequest Check
@@ -268,7 +325,7 @@ alias gpr='export GITHUB_TOKEN=$(gh auth token);GITHUB_REPONAME=$(ghq list | gre
 予めgh auth login を実行し、githubのアクセストークンを取得できる状態にしておくこと。
 
 
-gprを実行すると、githubのリポジトリを選択できるようになり、リポジトリ選択後にpullrequestの一覧が表示される。
+gprを実行すると、githubのリポジトリを選択できるようになり、選択後にpullrequestの一覧が表示される。
 
 pullrequestの一覧から、該当のpullrequestを選択すると、該当のpullrequestの内容が表示されるので、":Octo pr changes"を実行すると変更内容が表示される。その状態で",ce"を実行すると、CopilotChatで変更内容の説明が表示される。
 
