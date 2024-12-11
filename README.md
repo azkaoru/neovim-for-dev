@@ -273,5 +273,24 @@ gprを実行すると、githubのリポジトリを選択できるようにな�
 pullrequestの一覧から、該当のpullrequestを選択すると、該当のpullrequestの内容が表示されるので、":Octo pr changes"を実行すると変更内容が表示される。その状態で",ce"を実行すると、CopilotChatで変更内容の説明が表示される。
 
 
+## check plugins error
 
+
+```
+:checkhealth
+```
+
+fix delve
+
+```
+export PATH=~/go/bin:$PATH
+```
+
+fix treesitter
+
+https://www.reddit.com/r/neovim/comments/11d07fk/markdown_parser_for_nvimtreesitter/
+
+```
+:TSInstall markdown markdown_inline
+```
 
