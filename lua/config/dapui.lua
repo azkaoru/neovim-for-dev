@@ -78,7 +78,7 @@ dap.configurations.sh = {
 -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ansible
 dap.adapters.ansible = {
   type = "executable",
-  command = "python", -- or "/path/to/virtualenv/bin/python",
+  command = "python3.11", -- or "/path/to/virtualenv/bin/python",
   args = { "-m", "ansibug", "dap" },
 }
 
