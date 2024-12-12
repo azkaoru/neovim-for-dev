@@ -152,9 +152,9 @@ devleがインストール後、debug実行可能になる。
 
 debug実行する場合は F5を実行する。
 
-step over : ,so
+step over : F7
 step into : ,si
-step out : ,sr
+step out : ,so
 
 デバック再実行はdlで実行可能。
 
