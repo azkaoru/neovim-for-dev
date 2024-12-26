@@ -24,8 +24,8 @@ function M.setup()
                                 " " .. vim_item.kind
             -- set a name for each source
             vim_item.menu = ({
-                buffer = "[Buffer]",
                 nvim_lsp = "[LSP]",
+                buffer = "[Buffer]",
                 ultisnips = "[UltiSnips]",
 		luasnip = "[Snip]",
                 nvim_lua = "[Lua]",
