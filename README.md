@@ -226,6 +226,11 @@ Press C-q to pipe for quickfix list
 Press :cdo s/search word/replace word/gc
 
 
+## auto complete
+
+press <C-space> ,dislplay all
+press <C-l> for exclude text(Buffer), using lsp
+
 ##　ターミナルでtabを複数した際のコピー
 
 デフォルトでインストールされるvimが+clipboardではないため、tabでターミナルを複数開いてるときに、コピーして、ほかのタブでペースできない場合に、以下の手順で設定する。
