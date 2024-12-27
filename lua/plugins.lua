@@ -250,6 +250,10 @@ function M.setup()
 			event = 'BufEnter',
 		}
 
+                use {
+			'hrsh7th/cmp-nvim-lsp',
+                }
+
 		use {
 			"hrsh7th/nvim-cmp",
 			event = "InsertEnter",
@@ -281,6 +285,7 @@ function M.setup()
 				"rafamadriz/friendly-snippets",
 				disable = false,
 			},
+			dependencies = { 'hrsh7th/cmp-nvim-lsp' },
 		}
 
 		-- Auto pairs

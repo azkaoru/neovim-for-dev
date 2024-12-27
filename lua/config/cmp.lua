@@ -58,7 +58,13 @@ function M.setup()
       end,
     },
     sources = {
-        {name = 'buffer'}, {name = 'nvim_lsp'}, {name = "ultisnips"},{name = "luasnip"},
+        {name = 'buffer'}, {name = 'nvim_lsp',
+  option = {
+    markdown_oxide = {
+      keyword_pattern = [[\(\k\| \|\/\|#\)\+]]
+    }
+  }
+			}, {name = "ultisnips"},{name = "luasnip"},
         {name = "nvim_lua"}, {name = "look"}, {name = "path"},
         {name = 'cmp_tabnine'}, {name = "calc"}, {name = "spell"},
         {name = "emoji"}
