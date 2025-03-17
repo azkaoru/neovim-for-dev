@@ -12,4 +12,12 @@ function attach_to_ansibug()
 end
 
 -- attach
-vim.keymap.set("n", "<leader>daa", ':lua attach_to_ansibug()<CR>')
+-- vim.keymap.set("n", "<leader>daa", ':lua attach_to_ansibug()<CR>')
+
+
+local wk = require("which-key")
+	wk.add({
+-- ansibug
+{ "<leader>daa", ":lua attach_to_ansibug()<CR>", desc= "Ansible Attach", mode ="n"},
+})
+

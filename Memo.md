@@ -1,13 +1,11 @@
 # neovim-for-dev
-
 support os: rocky9
 
 * 日本後入力メモ
 
 RockyLinux or RHEL/Centosで全角、半角キーで日本語入力の切り替えを実施する場合の手順
 
-anthyをインストールする。
-
+aanthyをインストールする。
 ```
 dnf install ibus-anthy
 ```
@@ -328,6 +326,13 @@ alias gpr='export GITHUB_TOKEN=$(gh auth token);GITHUB_REPONAME=$(ghq list | gre
 gprを実行すると、githubのリポジトリを選択できるようになり、選択後にpullrequestの一覧が表示される。
 
 pullrequestの一覧から、該当のpullrequestを選択すると、該当のpullrequestの内容が表示されるので、":Octo pr changes"を実行すると変更内容が表示される。その状態で",ce"を実行すると、CopilotChatで変更内容の説明が表示される。
+
+
+## Avanteの利用
+
+source install.shを実行、You must setup copilot with either copilot.lua or copilot.vimエラーが発生した場合は、:Copilot authで認証を実施すること。
+
+ログインに成功すると、apps.jsonが作成され、それを読み込みにいく。
 
 
 

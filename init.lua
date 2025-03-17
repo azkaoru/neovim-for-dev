@@ -1,7 +1,10 @@
 require("utils")
 require("plugins").setup()
+--require('keymappings')
 require("custom-keys")
 require("custom-clipboard")
 require("custom-diagnostic")
 require("custom-ansible-keys")
+require("custom-jboss-keys")
+-- require("custom-markdown-oxide")
 

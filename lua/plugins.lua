@@ -1,5 +1,6 @@
 local M = {}
 
+
 function M.setup()
 	-- Indicate first time installation
 	local packer_bootstrap = false
@@ -72,13 +73,13 @@ function M.setup()
 		}
 
 		-- WhichKey
-		--    use {
-		--      "folke/which-key.nvim",
-		--      event = "VimEnter",
-		--      config = function()
-		--        require("config.whichkey").setup()
-		--      end,
-		--    }
+		    use {
+		      "folke/which-key.nvim",
+		      --event = "VimEnter",
+		      config = function()
+		        require("config/whichkey").setup()
+		      end,
+		    }
 
 		-- IndentLine
 		use {
@@ -244,15 +245,16 @@ function M.setup()
 			disable = true,
 		}
 
+
 		-- lspkind
 		use {
-			'onsails/lspkind-nvim',
-			event = 'BufEnter',
+			'onsails/lspkind.nvim',
 		}
 
-                use {
+		use {
 			'hrsh7th/cmp-nvim-lsp',
-                }
+		}
+
 
 		use {
 			"hrsh7th/nvim-cmp",
@@ -282,6 +284,10 @@ function M.setup()
 						require("config.luasnip").setup()
 					end,
 				},
+				-- {
+				-- 	"tzachar/cmp-tabnine",
+				-- 	run = "./install.sh",
+				-- },
 				"rafamadriz/friendly-snippets",
 				disable = false,
 			},
@@ -329,11 +335,13 @@ function M.setup()
 				require("mason-lspconfig").setup()
 			end,
 		}
+
 		use {
 			'neovim/nvim-lspconfig',
 			config = function()
 				require("config.lspconfig").setup()
 			end,
+
 		}
 
 		-- DAP for debugging
@@ -443,11 +451,10 @@ function M.setup()
 		use {
 			"akinsho/toggleterm.nvim",
 			config = function()
-				require("toggleterm").setup({
-					size = 20,
-					open_mapping = [[<c-\>]],
-				})
+				require("config/toggleterm").setup()
 				--vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]], { silent = true })
+				vim.keymap.set('v', '<leader>ts', '<Cmd>ToggleTermSendVisualSelection<CR>',
+					{ noremap = true, silent = true })
 			end,
 		}
 		use {
@@ -457,26 +464,6 @@ function M.setup()
 			config = function()
 				--require('config.alpha-default').setup()
 				require('config.alpha-mycustom').setup()
-			end,
-		}
-
-		use {
-			"github/copilot.vim",
-		}
-		use {
-			"CopilotC-Nvim/CopilotChat.nvim",
-			branch = "canary",
-			dependencies = {
-				{ "github/copilot.lua" }, -- or github/copilot.vim
-				{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-			},
-			build = "make tiktoken", -- Only on MacOS or Linux
-			opts = {
-				debug = true, -- Enable debugging
-				-- See Configuration section for rest
-			},
-			config = function()
-				require("config/copilot-chat").setup()
 			end,
 		}
 
@@ -492,33 +479,128 @@ function M.setup()
 				require "octo".setup()
 			end
 		}
-                use {
-                      "rachartier/tiny-inline-diagnostic.nvim",
-                      -- event = "LspAttach", -- Or `LspAttach`
-                      priority = 1000, -- needs to be loaded in first
-                      config = function()
-                          require('tiny-inline-diagnostic').setup()
-                      end
-                }
+		use {
+			"rachartier/tiny-inline-diagnostic.nvim",
+			-- event = "LspAttach", -- Or `LspAttach`
+			priority = 1000, -- needs to be loaded in first
+			config = function()
+				require('tiny-inline-diagnostic').setup()
+			end
+		}
+
+		use {
+			"github/copilot.vim",
+		}
+		use {
+			"zbirenbaum/copilot.lua",
+			-- event = "InsertEnter",
+			config = function()
+				require("copilot").setup({
+					filetypes = {
+						["*"] = true, -- 全てのファイルタイプで補完を有効化
+						-- 必要に応じて特定のファイルタイプを無効化
+						-- yaml = false,
+						-- markdown = false,
+					},
+					suggestion = { enabled = true },
+					panel = { enabled = true },
+					-- copilot_node_command = 'node'
+				})
+			end,
+		}
+
+		use {
+			"zbirenbaum/copilot-cmp",
+			event = "InsertEnter",
+			after = { "copilot.lua", "nvim-cmp" },
+			config = function()
+				require("copilot_cmp").setup()
+			end
+		}
 
 
 		-- use {
-		-- 	"zbirenbaum/copilot.lua",
+		-- 	"github/copilot.vim",
 		-- 	cmd = "Copilot",
 		-- 	config = function()
-		-- 		require("copilot").setup({
-		-- 					suggestion = { enabled = false },
-		-- 					panel = { enabled = false },
-		-- 		})
+		-- 		vim.g.copilot_no_tab_map = true
+		--
+		-- 		local keymap = vim.keymap.set
+		-- 		-- https://github.com/orgs/community/discussions/29817#discussioncomment-4217615
+		-- 		keymap(
+		-- 			"i",
+		-- 			"<CR>",
+		-- 			'copilot#Accept("<CR>")',
+		-- 			{ silent = true, expr = true, script = true, replace_keycodes = false }
+		-- 		)
+		-- 		keymap("i", "<C-j>", "<Plug>(copilot-next)")
+		-- 		keymap("i", "<C-k>", "<Plug>(copilot-previous)")
+		-- 		keymap("i", "<C-o>", "<Plug>(copilot-dismiss)")
+		-- 		keymap("i", "<C-s>", "<Plug>(copilot-suggest)")
 		-- 	end,
 		-- }
-		-- use {
-		-- 	"zbirenbaum/copilot-cmp",
-		-- 	after = { "copilot.lua"},
-		-- 	config = function()
-		-- 		require("copilot_cmp").setup()
-		-- 	end
-		-- }
+		--
+
+
+		use {
+			"CopilotC-Nvim/CopilotChat.nvim",
+			dependencies = {
+				{ "zbirenbaum/copilot.lua" },
+				-- { "github/copilot.lua" }, -- or github/copilot.vim
+				{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+			},
+			build = "make tiktoken", -- Only on MacOS or Linux
+			opts = {
+				debug = true, -- Enable debugging
+				-- See Configuration section for rest
+			},
+			config = function()
+				require("config/copilot-chat").setup()
+			end,
+		}
+
+
+
+		-- Avante.nvim with build process
+		use {
+			'yetone/avante.nvim',
+			requires = {
+				'nvim-treesitter/nvim-treesitter',
+				'MunifTanjim/nui.nvim',
+				'MeanderingProgrammer/render-markdown.nvim',
+				'HakonHarnes/img-clip.nvim',
+				'zbirenbaum/copilot.lua',
+			},
+			tag = 'v0.0.21',
+			run = 'make',
+			config = function()
+				require('avante').setup({
+					provider = "copilot",
+					auto_suggestions_provider = "copilot",
+
+					-- 動作設定
+					behaviour = {
+						auto_suggestions = true,
+						auto_set_highlight_group = true,
+						auto_set_keymaps = true,
+						auto_apply_diff_after_generation = false,
+						support_paste_from_clipboard = false,
+						minimize_diff = true,
+					},
+
+					-- ウィンドウ設定
+					windows = {
+						position = "right", -- サイドバーの位置
+						wrap = true, -- テキストの折り返し
+						width = 30, -- サイドバーの幅
+						-- その他の詳細設定は省略
+					},
+				})
+			end
+		}
+
+		use { 'mfussenegger/nvim-jdtls' }
+
 		-- Bootstrap Neovim
 		if packer_bootstrap then
 			print "Restart Neovim required after installation!"
