@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
 	local alpha = require("alpha")
 	local dashboard = require("alpha.themes.dashboard")
 
@@ -63,6 +60,3 @@ function M.setup()
 
 	-- Send config to alpha
 	alpha.setup(dashboard.opts)
-end
-
-return M

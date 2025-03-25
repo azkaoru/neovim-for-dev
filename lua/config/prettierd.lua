@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
 
   local prettier = require("prettier")
 
@@ -34,6 +31,3 @@ function M.setup()
       timeout = 5000,
     },
   })
-end
-
-return M

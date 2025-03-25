@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
   -- fetch the dap plugin
   local dap = require('dap')
   -- Add adapter to delve
@@ -212,6 +209,3 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
   -- Press Ctrl+d to toggle debug mode, will remove NvimTree also
   --map('n', '<C-d>', [[:NvimTreeToggle<CR> :lua require'dapui'.toggle()<CR>]], {})
 
-end
-
-return M

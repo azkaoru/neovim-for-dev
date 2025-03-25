@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
   --require('lspsage').setup({})
 
   require("lspsaga").setup({
@@ -17,6 +14,3 @@ function M.setup()
     },
   })
 
-end
-
-return M

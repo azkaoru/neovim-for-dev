@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
 	-- Require LSP config which we can use to attach gopls
 	lspconfig = require "lspconfig"
 	util = require "lspconfig/util"
@@ -78,6 +75,3 @@ lspconfig.markdown_oxide.setup {
 
 
 
-end
-
-return M

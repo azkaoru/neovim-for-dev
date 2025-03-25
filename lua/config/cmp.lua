@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
 	local cmp = require('cmp')
 
 	local t = function(str)
@@ -13,6 +10,8 @@ function M.setup()
 	end
 
 	local luasnip = require "luasnip"
+
+	require("luasnip/loaders/from_vscode").lazy_load()
 
 	local has_words_before = function()
 		if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
@@ -120,13 +119,12 @@ function M.setup()
   sources = {
     { name = "snippets" },
     { name = "copilot" },
-    { name = "buffer" },
+    { name = "buifer" },
   },
 })
-
+	
 	-- Auto pairs
 	local cmp_autopairs = require "nvim-autopairs.completion.cmp"
 	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
-end
+	print('config.cmp end')
 
-return M

@@ -2,7 +2,7 @@ local home = os.getenv('HOME')
 local jdtls = require('jdtls')
 local root_markers = {'gradlew', 'pom.xml','mvnw', '.git'}
 local root_dir = require('jdtls.setup').find_root(root_markers)
-local workspace_folder = home .. "/.local/share/nvim-dev/workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+local workspace_folder = home .. "/.local/share/java-dev/workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 
 local remap = require("me.util").remap
 -- Use an on_attach function to only map the following keys
@@ -13,15 +13,15 @@ local on_attach = function(client, bufnr)
 
   -- Default keymaps
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  require("lsp.defaults").on_attach(client, bufnr)
+  -- require("lsp.defaults").on_attach(client, bufnr)
 
   -- Java extensions
-  remap("n", "<C-o>", jdtls.organize_imports, bufopts, "Organize imports")
-  remap("n", "<leader>vc", jdtls.test_class, bufopts, "Test class (DAP)")
-  remap("n", "<leader>vm", jdtls.test_nearest_method, bufopts, "Test method (DAP)")
-  remap("n", "<space>ev", jdtls.extract_variable, bufopts, "Extract variable")
-  remap("n", "<space>ec", jdtls.extract_constant, bufopts, "Extract constant")
-  remap("v", "<space>em", [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]], bufopts, "Extract method")
+  remap("n", "<leader>jdoi", jdtls.organize_imports, bufopts, "Organize imports")
+  remap("n", "<leader>jdtc", jdtls.test_class, bufopts, "Test class (DAP)")
+  remap("n", "<leader>jdtm", jdtls.test_nearest_method, bufopts, "Test method (DAP)")
+  remap("n", "<space>jdev", jdtls.extract_variable, bufopts, "Extract variable")
+  remap("n", "<space>jdec", jdtls.extract_constant, bufopts, "Extract constant")
+  remap("v", "<space>jdem", [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]], bufopts, "Extract method")
 end
 
 function get_libs()
@@ -34,13 +34,13 @@ function get_libs()
 end
 
 local bundles = {
-  vim.fn.glob(home .. '/.local/share/nvim-dev/projects/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar'),
-  home .. '/.local/share/nvim-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.cfr-0.0.3.jar',
-  home .. '/.local/share/nvim-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.common-0.0.3.jar',
-  home .. '/.local/share/nvim-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.fernflower-0.0.3.jar',
-  home .. '/.local/share/nvim-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.procyon-0.0.3.jar',
+  vim.fn.glob(home .. '/.local/share/java-dev/projects/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar'),
+  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.cfr-0.0.3.jar',
+  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.common-0.0.3.jar',
+  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.fernflower-0.0.3.jar',
+  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.procyon-0.0.3.jar',
 }
---vim.list_extend(bundles, vim.split(vim.fn.glob(home .. '/.local/share/nvim-dev/projects/vscode-java-test/server/*.jar'), "\n"))
+--vim.list_extend(bundles, vim.split(vim.fn.glob(home .. '/.local/share/java-dev/projects/vscode-java-test/server/*.jar'), "\n"))
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -62,7 +62,7 @@ local config = {
     java = {
       format = {
         settings = {
-          url = "/.local/share/nvim-dev/eclipse/eclipse-java-google-style.xml",
+          url = "/.local/share/java-dev/eclipse/eclipse-java-google-style.xml",
           profile = "GoogleStyle",
         },
       },
@@ -163,9 +163,9 @@ local config = {
     '--add-modules=ALL-SYSTEM',
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-    '-javaagent:' .. home .. '/.local/share/nvim-dev/eclipse/lombok.jar',
-    '-jar',  home .. '/.local/share/nvim-dev/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
-    '-configuration', home .. '/.local/share/nvim-dev/jdtls/config_linux',
+    '-javaagent:' .. home .. '/.local/share/java-dev/eclipse/lombok.jar',
+    '-jar',  home .. '/.local/share/java-dev/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+    '-configuration', home .. '/.local/share/java-dev/jdtls/config_linux',
     '-data', workspace_folder,
   },
 }

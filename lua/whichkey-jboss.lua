@@ -91,16 +91,17 @@ local wk = require("which-key")
 -- jboss 
 --{ "<leader>daq", ":lua attach_to_quarkus_debug()<CR>", desc= "Quarkus Attach", mode ="n"},
 
+
+		{ "<space>j",  group = "JBoss" }, -- group
+{ "<space>ja", ":lua attach_to_jboss_debug()<CR>", desc= "JBoss Attach", mode ="n"},
+{ "<space>jmd", function() run_wildfly_deploy_using_current_buffer_file() end, desc= "JBoss Maven Deploy Using Current pom.xml", mode ="n"},
+{ "<space>jmu", function() run_wildfly_undeploy_using_current_buffer_file() end, desc= "JBoss Maven Undeploy Using Current pom.xml", mode ="n"},
+		{ "<space>m",  group = "Maven" }, -- group
+{ "<space>md", function() run_mv_depend_tree() end, desc= "Maven Depend Tree", mode ="n"},
+{ "<space>mp", function() run_compile() end, desc= "Maven clean package", mode ="n"},
+
 { "<F11>", function() run_compile() end, desc= "Maven Compile",mode ="n"},
 { "<F12>", function() run_wildfly_deploy() end,desc= "Maven Wildfly Deploy",mode ="n"},
-
-		{ "<leader>j",  group = "JBoss" }, -- group
-{ "<leader>ja", ":lua attach_to_jboss_debug()<CR>", desc= "JBoss Attach", mode ="n"},
-{ "<leader>jmd", function() run_wildfly_deploy_using_current_buffer_file() end, desc= "JBoss Maven Deploy Using Current pom.xml", mode ="n"},
-{ "<leader>jmu", function() run_wildfly_undeploy_using_current_buffer_file() end, desc= "JBoss Maven Undeploy Using Current pom.xml", mode ="n"},
-		{ "<leader>m",  group = "Maven" }, -- group
-{ "<leader>md", function() run_mv_depend_tree() end, desc= "Maven Depend Tree", mode ="n"},
-
 
 })
 

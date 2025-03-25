@@ -1,7 +1,5 @@
-local M = {}
-
-function M.setup()
-	require("which-key").setup()
+vim.g.maplocalleader = ","	
+require("which-key").setup()
 	local wk = require("which-key")
 	wk.add({
 -- telescope
@@ -76,9 +74,10 @@ function M.setup()
 			mode = { "n", "v" },      -- NORMAL and VISUAL mode
 			{ "<leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
 			{ "<leader>w", "<cmd>w<cr>", desc = "Write" },
-		}
+		},
+
+		-- lsp
+		{ "<leader>l",  group = "LSP" }, -- group
+                { "<leader>lf",function() vim.lsp.buf.format { async = true } end, desc= "CODE FORMAT",mode = "n"},
 	})
 
-end
-
-return M

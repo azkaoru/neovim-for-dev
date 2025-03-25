@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
   local coq = require "coq"
   coq.Now() -- Start coq
 
@@ -19,6 +16,3 @@ function M.setup()
       unsafe = { "rm", "poweroff", "mv" },
     },
   }
-end
-
-return M

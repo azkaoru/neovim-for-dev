@@ -1,6 +1,3 @@
-local M = {}
-
-function M.setup()
   require('null-ls').setup({
     sources = {
       require("null-ls").builtins.formatting.shfmt, -- shell script formatting
@@ -12,6 +9,3 @@ function M.setup()
       require("null-ls").builtins.diagnostics.textlint.with({ filetypes = { "markdown","asciidoc" } }),
     },
   })
-end
-
-return M
