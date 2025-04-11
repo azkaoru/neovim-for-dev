@@ -11,13 +11,25 @@ wk.add({
 	{ "<leader>fc", "<cmd>Telescope lsp_incoming_calls<cr>",                                                   desc = "Find incoming calls (LSP)",     mode = "n" },
 	{ "<leader>fo", "<cmd>Telescope lsp_outgoing_calls<cr>",                                                   desc = "Find outgoing calls (LSP)",     mode = "n" },
 	{ "<leader>fi", "<cmd>Telescope lsp_implementations<cr>",                                                  desc = "Find implementations (LSP)",    mode = "n" },
-	{ "<leader>fx", "<cmd>Telescope diagnostics bufnr=0<cr>",                                                  desc = "Find errors (LSP)",             mode = "n" },
+	{ "<leader>fd", "<cmd>Telescope diagnostics<cr>",                                                  desc = "Find Diagnostics (LSP)",             mode = "n" },
+	{ "<leader>fx", 
+		function()
+		   require "telescope.builtin".diagnostics({ severity = vim.diagnostic.severity.ERROR })
+		end,
+	desc = "Find errors (LSP)",             mode = "n" },
+
+	{ "<leader>fX", 
+		function()
+		   require "telescope.builtin".diagnostics({ severity = vim.diagnostic.severity.WARN })
+		end,
+	desc = "Find warns (LSP)",             mode = "n" },
 	{ "<leader>ft", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",                                        desc = "Find type definications (LSP)", mode = "n" },
 
 	-- trouble
 	{ "<leader>x",  group = "ERRORS" }, -- group
-	{ "<leader>xx", "<cmd>TroubleToggle<cr>",                                                                  desc = "Display errors",                mode = "n" },
-	{ "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",                                            desc = "Display workspace errors",      mode = "n" },
+	{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",                                                     desc = "Display error (Trouble Diagnostics)",                mode = "n" },
+	{ "<leader>xb", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",                                        desc = "Display buffers errors (Trouble Buffer Diagnostics)",                mode = "n" },
+	-- { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",                                            desc = "Display workspace errors",      mode = "n" },
 	{ "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",                                             desc = "Display document errors",       mode = "n" },
 
 	-- symbols-outline
@@ -96,12 +108,15 @@ wk.add({
 	{ "<space>tt", "<cmd>ToggleTerm<CR>", desc = "ターミナルを開く", mode = "n" },
 	{ "<leader>t", group = "Terminal" }, -- group
 	{ "<leader>tt",   "<cmd>Lspsaga term_toggle<CR>",                                                              desc = "Toggl Term UI",           mode = "n" },
+
 	-- lsp
+	{ "<leader>g", group = "Go to" }, -- group
+	{ '<leader>gg', vim.lsp.buf.definition, desc = "Go to definition", mode = "n" },
+	{ "<leader>gd", vim.lsp.buf.declaration, desc = "Go to declaration", mode = "n" },
+	{ '<leader>gi', vim.lsp.buf.implementation, desc = "Go to implementation", mode = "n" },
+
 	{ "<leader>l", group = "LSP" }, -- group
 	{ "<leader>lf", function() vim.lsp.buf.format { async = true } end, desc = "CODE FORMAT", mode = "n" },
-	{ "<leader>ldec", vim.lsp.buf.declaration, desc = "Go to declaration", mode = "n" },
-	{ '<leader>ldef', vim.lsp.buf.definition, desc = "Go to definition", mode = "n" },
-	{ '<leader>limp', vim.lsp.buf.implementation, desc = "Go to implementation", mode = "n" },
 	{ '<leader>lh', vim.lsp.buf.hover, desc = "Hover text", mode = "n" },
 	{ '<leader>ls', vim.lsp.buf.signature_help, desc = "Show signature", mode = "n" },
 	{ '<leader>lawf', vim.lsp.buf.add_workspace_folder, desc = "Add workspace folder", mode = "n" },
@@ -116,7 +131,7 @@ wk.add({
 	},
 	{ '<leader>ltd', vim.lsp.buf.type_definition, desc = "Jump to type definition", mode = "n" },
 	{ '<leader>lrn', vim.lsp.buf.rename, desc = "Rename", mode = "n" },
-	{ '<leader>lca', vim.lsp.buf.code_action, desc = "Code actions", mode = "n" },
+	{ '<space>ca', vim.lsp.buf.code_action, desc = "Code actions", mode = "n" },
 	--vim.keymap.set('v', "<space>ca", "<ESC><CMD>lua vim.lsp.buf.range_code_action()<CR>",
 
 	-- no-neck plugin

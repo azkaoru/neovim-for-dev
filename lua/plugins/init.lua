@@ -3,12 +3,12 @@ return {
 	{ "nvim-lua/plenary.nvim" },
 
 	-- Colorscheme
-	{
-		"sainnhe/everforest",
-		config = function()
-			vim.cmd "colorscheme everforest"
-		end,
-	},
+	-- {
+	-- 	"sainnhe/everforest",
+	-- 	config = function()
+	-- 		vim.cmd "colorscheme everforest"
+	-- 	end,
+	-- },
 
 	-- Startup screen
 	--{
@@ -268,6 +268,8 @@ return {
 			'rafamadriz/friendly-snippets'
 		},
 	},
+
+	-- { "hrsh7th/vim-vsnip",},
 	-- {
 	-- 	'L3MON4D3/LuaSnip',
 	-- 	build = 'make install_jsregexp',
@@ -354,7 +356,7 @@ return {
 	{
 		'Mofiqul/dracula.nvim',
 		config = function()
-			vim.cmd [[colorscheme dracula]]
+		 vim.cmd [[colorscheme dracula-soft]]
 		end,
 	},
 
@@ -379,7 +381,7 @@ return {
 		"folke/trouble.nvim",
 		event = "BufReadPre",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		cmd = { "TroubleToggle", "Trouble" },
+		cmd = { "Trouble" },
 		config = function()
 			require("trouble").setup {
 				use_diagnostic_signs = true,
@@ -446,9 +448,9 @@ return {
 		dependencies = { 'nvim-tree/nvim-web-devicons'
 		},
 		config = function()
-			 -- require('config.alpha-mycustom')
-			 require('config.alpha-hanzo')
-                         -- require'alpha'.setup(require'alpha.themes.startify'.config)
+			-- require('config.alpha-mycustom')
+			require('config.alpha-hanzo')
+			-- require'alpha'.setup(require'alpha.themes.startify'.config)
 		end,
 	},
 
@@ -567,25 +569,6 @@ return {
 				},
 			})
 		end
-	},
-	{
-		"shellRaining/hlchunk.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			require("hlchunk").setup({
-				chunk = {
-					enable = true,
-					style = "#81A1C1",
-				},
-				indent = {
-					enable = true,
-				},
-				line_num = {
-					enable = true,
-					style = "#81A1C1",
-				},
-			})
-		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
@@ -749,4 +732,26 @@ return {
 	-- },
 
 	{ 'mfussenegger/nvim-jdtls' },
+
+	{
+		"rainbowhxch/accelerated-jk.nvim",
+		config = function()
+			require("accelerated-jk").setup()
+		end,
+	},
+	{
+		'gen740/SmoothCursor.nvim',
+		config = function()
+			require('smoothcursor').setup({
+				fancy = {
+					enable = true, }
+			})
+		end
+	},
+	{
+		"petertriho/nvim-scrollbar",
+		config = function()
+			require("scrollbar").setup()
+		end
+	}
 }

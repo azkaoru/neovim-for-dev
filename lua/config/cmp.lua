@@ -46,7 +46,7 @@
 					buffer = "[Buffer]",
 					ultisnips = "[UltiSnips]",
 					luasnip = "[LuaSnip]",
-					vsnip = "[Vsnip]",
+					-- vsnip = "[Vsnip]",
 					nvim_lua = "[Lua]",
 					cmp_tabnine = "[TabNine]",
 					look = "[Look]",
@@ -83,12 +83,12 @@
 		snippet = {
 			expand = function(args)
 				require("luasnip").lsp_expand(args.body)
-				vim.fn["vsnip#anonymous"](args.body)
+				-- vim.fn["vsnip#anonymous"](args.body)
 			end,
 		},
 		sources = {
 			{ name = 'buffer' }, { name = 'nvim_lsp' },{ name = 'nvim_lsp_signature_help' },
- { name = "ultisnips" }, { name = "luasnip" },{name= "vsnip"},
+ { name = "ultisnips" }, { name = "luasnip" },
 			{ name = "nvim_lua" }, { name = "look" }, { name = "path" },
 			{ name = 'cmp_tabnine' }, { name = "calc" }, { name = "spell" },
 			{ name = "emoji" }, { name = "copilot" },{name= "copilot-chat"}

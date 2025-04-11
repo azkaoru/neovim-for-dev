@@ -60,7 +60,7 @@ vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 -- 最初に一度だけ実行される処理
 vim.api.nvim_create_autocmd("BufRead", {
--- vim.api.nvim_create_autocmd("VimEnter", {
+	-- vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
 	callback = function()
 		-- ここに実行したい処理を記述します
@@ -68,9 +68,17 @@ vim.api.nvim_create_autocmd("BufRead", {
 		require("zen-mode").toggle({
 			window = {
 				width = .40 -- width will be 85% of the editor width
-		 	}
+			}
 		})
-                -- require("nvim-tree.api").tree.open()
+		-- require("nvim-tree.api").tree.open()
 	end,
 })
 
+-- quickfix  window to the right
+vim.api.nvim_set_keymap("n", "<leader>L", ":wincmd L<CR>", { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap("n", "<leader>xf", ":%!xmllint --format --recover --encode UTF-8 -<CR>",
+	{ noremap = true, silent = true })
+
+vim.keymap.set("n", "j", "<Plug>(accelerated_jk_gj)")
+vim.keymap.set("n", "k", "<Plug>(accelerated_jk_gk)")
