@@ -77,8 +77,29 @@ vim.api.nvim_create_autocmd("BufRead", {
 -- quickfix  window to the right
 vim.api.nvim_set_keymap("n", "<leader>L", ":wincmd L<CR>", { noremap = true, silent = true })
 
+-- xml format
 vim.api.nvim_set_keymap("n", "<leader>xf", ":%!xmllint --format --recover --encode UTF-8 -<CR>",
 	{ noremap = true, silent = true })
 
 vim.keymap.set("n", "j", "<Plug>(accelerated_jk_gj)")
 vim.keymap.set("n", "k", "<Plug>(accelerated_jk_gk)")
+
+vim.keymap.set("n", "<leader>7", require("telescope.builtin").current_buffer_fuzzy_find, { desc= "Fuzzy Find Current Buffer"})
+vim.keymap.set("n", "<leader>8", require("telescope.builtin").lsp_dynamic_workspace_symbols, { desc = "Find Type From Workspace" })
+vim.keymap.set("n", "<space>b", ":b#<CR>", { desc = "Buffer Back" })
+
+
+-- 上方向に1ページスクロールする関数
+local function scroll_page_up()
+  vim.api.nvim_input('<PageUp>')
+end
+
+-- 下方向に1ページスクロールする関数
+local function scroll_page_down()
+  vim.api.nvim_input('<PageDown>')
+end
+
+-- キーマッピングの設定
+vim.keymap.set('n', '<leader>su', scroll_page_up, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sd', scroll_page_down, { noremap = true, silent = true })
+

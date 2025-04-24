@@ -11,12 +11,18 @@ function mvn_quarkus_dev()
   return 'mvn compile quarkus:dev'
 end
 
+function run_clean_install_using_current_buffer_file()
+  local dir = vim.fn.expand("%:h") -- Get the current file name
+  print(dir)
+  --local pom = vim.fn.expand("%:p") -- Get the fullpath
+  vim.cmd('term ' .. "mvn clean install -f"  .. dir .. '/' .. 'pom.xml')
+end
 
 function run_wildfly_deploy_using_current_buffer_file()
   local dir = vim.fn.expand("%:h") -- Get the current file name
   print(dir)
   --local pom = vim.fn.expand("%:p") -- Get the fullpath
-  vim.cmd('term ' .. "mvn wildfly:deploy -f"  .. dir .. '/' .. 'pom.xml')
+  vim.cmd('term ' .. "mvn clean install wildfly:deploy -f"  .. dir .. '/' .. 'pom.xml')
 end
 
 function run_wildfly_undeploy_using_current_buffer_file()
@@ -99,7 +105,7 @@ local wk = require("which-key")
 		{ "<space>m",  group = "Maven" }, -- group
 { "<space>md", function() run_mv_depend_tree() end, desc= "Maven Depend Tree", mode ="n"},
 { "<space>mp", function() run_compile() end, desc= "Maven clean package", mode ="n"},
-
+{ "<space>mi", function() run_clean_install_using_current_buffer_file() end, desc= "Maven clean install using current's buffer pom.xml", mode ="n"},
 { "<F11>", function() run_compile() end, desc= "Maven Compile",mode ="n"},
 { "<F12>", function() run_wildfly_deploy() end,desc= "Maven Wildfly Deploy",mode ="n"},
 

@@ -40,17 +40,34 @@ dap.configurations.go = {
 -- Setup DapUI
 local dapui = require('dapui')
 -- set it up see more configs in their repo
-dapui.setup()
+local config = {
+  sidebar = {
+    elements = {
+      {
+        id = "scopes",
+        size = 0.25, -- Can be float or integer > 1
+      },
+      { id = "breakpoints", size = 0.25 },
+    },
+    size = 40,
+    position = "left", -- Can be "left", "right", "top", "bottom"
+  },
+  tray = {
+    elements = {},
+  },
+  }
 
--- dap fires events, we can listen on them to open UI on certain events
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  dapui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-  dapui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dapui.close()
-end
+
+-- dapui.setup()
+--
+-- dap.listeners.after.event_initialized["dapui_config"] = function()
+--   dapui.open()
+-- end
+-- dap.listeners.before.event_terminated["dapui_config"] = function()
+--   dapui.close()
+-- end
+-- dap.listeners.before.event_exited["dapui_config"] = function()
+  -- dapui.close()
+-- end
 
 

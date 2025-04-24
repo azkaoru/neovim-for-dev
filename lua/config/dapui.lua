@@ -156,13 +156,51 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
     }
   end
 
-
   -- Setup DapUI
-  local dapui = require('dapui')
   -- set it up see more configs in their repo
-  dapui.setup()
+local dap, dapui = require("dap"), require("dapui")
 
-  -- dap fires events, we can listen on them to open UI on certain events
+-- local config = {
+--   sidebar = {
+--     elements = {
+--       {
+--         id = "scopes",
+--         size = 0.25, -- Can be float or integer > 1
+--       },
+--       { id = "breakpoints", size = 0.25 },
+--     },
+--     size = 40,
+--     position = "left", -- Can be "left", "right", "top", "bottom"
+-- },
+-- tray = {
+-- elements = {},
+  -- },
+  -- }
+
+dapui.setup({
+  icons = { expanded = "", collapsed = "" },
+  layouts = {
+    {
+      elements = {
+        { id = "watches", size = 0.25 },
+        { id = "stacks", size = 0.25 },
+        { id = "breakpoints", size = 0.25 },
+        { id = "scopes", size = 0.25 },
+      },
+      size = 100,
+      position = "right",
+    },
+    {
+      elements = {
+        "repl",
+        "console",
+      },
+      size = 0.20,
+      position = "bottom",
+    },
+  },
+})
+
   dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
   end
@@ -172,6 +210,9 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
   dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
   end
+
+
+
 
   -- fetch keymap
   --local map = vim.api.nvim_set_keymap

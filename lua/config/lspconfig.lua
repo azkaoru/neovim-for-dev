@@ -73,5 +73,18 @@ lspconfig.markdown_oxide.setup {
 }
 
 
+lspconfig.pyright.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "python" },
+    root_dir = util.root_pattern(".venv"),
+    cmd = { "bash", "-c", "source ~/.virtualenvs/myenv/bin/activate && ~/.virtualenvs/myenv/bin/pyright-langserver --stdio" },
+    settings = {
+      python = {
+        pythonPath = '.venv/bin/python', -- Windowsなら .venv/Scripts/python.exe
+      },
+  },
+}
+
 
 

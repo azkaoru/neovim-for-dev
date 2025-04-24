@@ -753,5 +753,11 @@ return {
 		config = function()
 			require("scrollbar").setup()
 		end
+	},
+	{
+               "mfussenegger/nvim-dap-python",		
+		config = function()
+                  require("dap-python").setup("~/.virtualenvs/myenv/bin/python")
+		end
 	}
 }

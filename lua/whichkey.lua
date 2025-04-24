@@ -7,10 +7,12 @@ wk.add({
 	{ "<leader>fb", "<cmd>Telescope buffers<cr>",                                                              desc = "Find buffer",                   mode = "n" },
 	{ "<leader>fm", "<cmd>Telescope marks<cr>",                                                                desc = "Find mark",                     mode = "n" },
 	{ "<leader>fr", "<cmd>Telescope lsp_references<cr>",                                                       desc = "Find references (LSP)",         mode = "n" },
+	{ "<leader>5", "<cmd>Telescope lsp_references<cr>",                                                       desc = "Find references (LSP)",         mode = "n" },
 	{ "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",                                                 desc = "Find symbols (LSP)",            mode = "n" },
 	{ "<leader>fc", "<cmd>Telescope lsp_incoming_calls<cr>",                                                   desc = "Find incoming calls (LSP)",     mode = "n" },
 	{ "<leader>fo", "<cmd>Telescope lsp_outgoing_calls<cr>",                                                   desc = "Find outgoing calls (LSP)",     mode = "n" },
 	{ "<leader>fi", "<cmd>Telescope lsp_implementations<cr>",                                                  desc = "Find implementations (LSP)",    mode = "n" },
+	{ "<leader>4", "<cmd>Telescope lsp_implementations<cr>",                                                  desc = "Find implementations (LSP)",    mode = "n" },
 	{ "<leader>fd", "<cmd>Telescope diagnostics<cr>",                                                  desc = "Find Diagnostics (LSP)",             mode = "n" },
 	{ "<leader>fx", 
 		function()
@@ -65,6 +67,9 @@ wk.add({
 	{ "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>",                                                 desc = "Open REPL",                     mode = "n" },
 	{ "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>",                                                    desc = "Run last",                      mode = "n" },
 	{ "<leader>di", function() require "dap.ui.widgets".hover() end,                                           desc = "Variables",                     mode = "n" },
+	{ "<space>d",  group = "DAPUI" }, -- group
+	{ "<space>dt", "<cmd>lua require('dapui').toggle()<cr>",                                                    desc = "DAPUI toggle",                      mode = "n" },
+	{ "<space>dc", "<cmd>lua require('dapui').close('sidebar')<cr>",                                                    desc = "DAPUI close",                      mode = "n" },
 	{
 		"<leader>d?",
 		function()
@@ -95,7 +100,7 @@ wk.add({
 	{ "<leader>sgh", "<cmd>Lspsaga hover_doc<CR>", desc = "SAGA Hover Doc", mode = "n" },
 	{ "<leader>sgf", "<cmd>Lspsaga lsp_finder<CR>", desc = "SAGA LSP Finder", mode = "n" },
 	{ "<leader>sgp", "<cmd>Lspsaga peek_definition<CR>", desc = "SAGA peek_definition", mode = "n" },
-	{ "<leader>sgc", "<cmd>Lspsaga code_action<CR>", desc = "SAGA code_action", mode = "n" },
+	{ "<leader>ca", "<cmd>Lspsaga code_action<CR>", desc = "SAGA code_action", mode = "n" },
 	{ "<leader>sgr", "<cmd>Lspsaga rename<CR>", desc = "SAGA rename", mode = "n" },
 	{ "<leader>sgdl", "<cmd>Lspsaga show_line_diagnostics<CR>", desc = "SAGA show_line_diagnostics", mode = "n" },
 	{ "<leader>sgdc", "<cmd>Lspsaga show_cursor_diagnostics<CR>", desc = "SAGA show_cursor_diagnostics", mode = "n" },
@@ -129,10 +134,9 @@ wk.add({
 		desc = "List workspace folders",
 		mode = "n"
 	},
-	{ '<leader>ltd', vim.lsp.buf.type_definition, desc = "Jump to type definition", mode = "n" },
-	{ '<leader>lrn', vim.lsp.buf.rename, desc = "Rename", mode = "n" },
-	{ '<space>ca', vim.lsp.buf.code_action, desc = "Code actions", mode = "n" },
-	--vim.keymap.set('v', "<space>ca", "<ESC><CMD>lua vim.lsp.buf.range_code_action()<CR>",
+	{ '<leader>3', vim.lsp.buf.type_definition, desc = "Jump to type definition", mode = "n" },
+	{ '<leader>2', vim.lsp.buf.rename, desc = "Rename", mode = "n" },
+	{ '<leader>1', vim.lsp.buf.code_action, desc = "Code Action", mode = "n" },
 
 	-- no-neck plugin
 	{ "<leader>z", group = "Zen" }, -- group
@@ -157,6 +161,12 @@ wk.add({
 	--{ '<leader>cco', ':CopilotChat<CR>', { noremap = true, silent = true })
 	{ "<leader>c", group = "Copilot" }, -- group
 	{ "<leader>cco", ":CopilotChatOpen<CR>", desc = "CopilotChatを開く", mode = "n" },
+
+	{ "<space>s", group = "STEP DEBUG" }, -- group
+         { "<space>so", "<cmd>lua require'dap'.step_over()<cr>", desc= "Step over",mode = "n"},
+         { "<space>si", "<cmd>lua require'dap'.step_into()<cr>", desc= "Step into",mode = "n"},
+          { "<space>sc", "<cmd>lua require'dap'.continue()<cr>", desc= "Continue",mode = "n"},
+         { "<space>st", "<cmd>lua require'dap'.step_out()<cr>", desc= "Step out",mode = "n"},
 
 })
 
