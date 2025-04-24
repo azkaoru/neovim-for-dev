@@ -1,7 +1,8 @@
   require('null-ls').setup({
     sources = {
       require("null-ls").builtins.formatting.shfmt, -- shell script formatting
-      require("null-ls").builtins.diagnostics.shellcheck, -- shell script diagnostics
+      -- none-ls not support
+      -- require("null-ls").builtins.diagnostics.shellcheck, -- shell script diagnostics
       require("null-ls").builtins.formatting.prettier,
       require("null-ls").builtins.diagnostics.ansiblelint, -- ansible diagnostics
       require("null-ls").builtins.diagnostics.yamllint, -- yaml diagnostics
