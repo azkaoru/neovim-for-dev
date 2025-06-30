@@ -182,20 +182,21 @@ dapui.setup({
   layouts = {
     {
       elements = {
-        { id = "watches", size = 0.25 },
-        { id = "stacks", size = 0.25 },
-        { id = "breakpoints", size = 0.25 },
-        { id = "scopes", size = 0.25 },
+        { id = "repl", size = 0.20 },
+        { id = "watches", size = 0.20 },
+        { id = "stacks", size = 0.20 },
+        { id = "breakpoints", size = 0.20 },
+        { id = "scopes", size = 0.20 },
       },
       size = 100,
       position = "right",
     },
     {
       elements = {
-        "repl",
+        -- "repl",
         "console",
       },
-      size = 0.20,
+      size = 0.22,
       position = "bottom",
     },
   },
@@ -205,12 +206,14 @@ dapui.setup({
     dapui.open()
   end
   dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
+    -- dapui.close()
   end
   dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
+    local choice = vim.fn.confirm("Close DAP UI?", "&Yes\n&No", 2)
+    if choice == 1 then
+      dapui.close()
+    end
   end
-
 
 
 
