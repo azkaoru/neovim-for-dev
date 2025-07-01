@@ -42,6 +42,7 @@ require("debugging")
 require("whichkey")
 require("whichkey-jboss")
 require("whichkey-ansible")
+require("whichkey-asciidoctor")
 
 -- toggleterm setting
 function _G.set_terminal_keymaps()
