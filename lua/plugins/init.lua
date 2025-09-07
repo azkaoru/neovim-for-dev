@@ -1,3 +1,17 @@
+local function is_fedora()
+    local f = io.open("/etc/os-release", "r")
+    if not f then return false end
+    local content = f:read("*a")
+    f:close()
+    return content:match("Fedora") ~= nil
+end
+
+local vscode_js_debug_build_cmd = "npm install --legacy-peer-deps && npm run compile"
+
+if is_fedora() then
+    vscode_js_debug_build_cmd  = false  -- Fedora の場合は build をスキップ
+end
+
 return {
 	-- Load only when require
 	{ "nvim-lua/plenary.nvim" },
@@ -34,7 +48,7 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		--event = "VimEnter",
+		-- event = "VimEnter",
 		dependencies = {
 			'nvim-tree/nvim-web-devicons',
 			'echasnovski/mini.icons',
@@ -68,12 +82,7 @@ return {
 	},
 
 	-- Better icons
-	{
-		"kyazdani42/nvim-web-devicons",
-		config = function()
-			require("nvim-web-devicons").setup { default = true }
-		end,
-	},
+
 
 	-- Better Comment
 	{
@@ -83,7 +92,6 @@ return {
 			require("Comment").setup {}
 		end,
 	},
-
 	-- Better surround
 	{ "tpope/vim-surround",     event = "InsertEnter" },
 
@@ -245,7 +253,8 @@ return {
 
 	{
 		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
+		-- event = "InsertEnter",
+		event = { "InsertEnter", "CmdlineEnter" },
 		lazy = true,
 		config = function()
 			require("config.cmp")
@@ -340,7 +349,10 @@ return {
 	{
 		"microsoft/vscode-js-debug",
 		lazy = true,
-		build = "npm install --legacy-peer-deps && npm run compile",
+		-- build = "npm install --legacy-peer-deps && npm run compile",
+		-- build = false,
+                build = vscode_js_debug_build_cmd,
+
 	},
 
 	-- UI for DAP
@@ -760,5 +772,6 @@ return {
 		config = function()
                   require("dap-python").setup("~/.virtualenvs/myenv/bin/python")
 		end
-	}
+	},
+{ 'echasnovski/mini.ai', version = '*' },
 }
