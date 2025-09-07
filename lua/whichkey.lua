@@ -109,10 +109,10 @@ wk.add({
 	{ "<leader>sgdp", "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "SAGA diagnostic_jump_prev", mode = "n" },
 	{ "<leader>sgci", "<cmd>Lspsaga incoming_calls<CR>", desc = "SAGA incoming_calls", mode = "n" },
 	{ "<leader>sgco", "<cmd>Lspsaga outgoing_calls<CR>", desc = "SAGA outgoing_calls", mode = "n" },
-	{ "<space>t", group = "Terminal" }, -- group
-	{ "<space>tt", "<cmd>ToggleTerm<CR>", desc = "ターミナルを開く", mode = "n" },
 	{ "<leader>t", group = "Terminal" }, -- group
-	{ "<leader>tt",   "<cmd>Lspsaga term_toggle<CR>",                                                              desc = "Toggl Term UI",           mode = "n" },
+	{ "<leader>tt", "<cmd>ToggleTerm<CR>", desc = "ターミナルを開く", mode = "n" },
+	{ "<space>t", group = "Terminal" }, -- group
+	{ "<space>tt",   "<cmd>Lspsaga term_toggle<CR>",                                                              desc = "Toggl Term UI",           mode = "n" },
 
 	-- lsp
 	{ "<leader>g", group = "Go to" }, -- group

@@ -42,6 +42,7 @@ require("debugging")
 require("whichkey")
 require("whichkey-jboss")
 require("whichkey-ansible")
+require("whichkey-asciidoctor")
 
 -- toggleterm setting
 function _G.set_terminal_keymaps()
@@ -65,12 +66,12 @@ vim.api.nvim_create_autocmd("BufRead", {
 	callback = function()
 		-- ここに実行したい処理を記述します
 		--require("no-neck-pain").enable()
-		require("zen-mode").toggle({
-			window = {
-				width = .40 -- width will be 85% of the editor width
-			}
-		})
-		-- require("nvim-tree.api").tree.open()
+		-- require("zen-mode").toggle({
+		-- 	window = {
+		-- 		width = .40 -- width will be 85% of the editor width
+		-- 	}
+		-- })
+		--require("nvim-tree.api").tree.open()
 	end,
 })
 
