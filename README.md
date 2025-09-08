@@ -7,10 +7,10 @@
 
 fedora & rockylinux
 ```
-curl https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz -OL
-tar xzvf nvim-linux64.tar.gz
-sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
-sudo cp -r nvim-linux64/share/nvim /usr/share/
+curl https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-x86_64.tar.gz -OL
+tar xzvf nvim-linux-x86_64.tar.gz
+sudo mv ./nvim-linux-x86_64/bin/nvim /usr/local/bin
+sudo cp -r nvim-linux-x86_64/share/nvim /usr/share/
 ```
 
 rhel8 は次のエラーが発生するのでインストールできない。 
