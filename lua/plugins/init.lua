@@ -1,15 +1,15 @@
 local function is_fedora()
-    local f = io.open("/etc/os-release", "r")
-    if not f then return false end
-    local content = f:read("*a")
-    f:close()
-    return content:match("Fedora") ~= nil
+	local f = io.open("/etc/os-release", "r")
+	if not f then return false end
+	local content = f:read("*a")
+	f:close()
+	return content:match("Fedora") ~= nil
 end
 
 local vscode_js_debug_build_cmd = "npm install --legacy-peer-deps && npm run compile"
 
 if is_fedora() then
-    vscode_js_debug_build_cmd  = false  -- Fedora の場合は build をスキップ
+	vscode_js_debug_build_cmd = false -- Fedora の場合は build をスキップ
 end
 
 return {
@@ -351,7 +351,7 @@ return {
 		lazy = true,
 		-- build = "npm install --legacy-peer-deps && npm run compile",
 		-- build = false,
-                build = vscode_js_debug_build_cmd,
+		build = vscode_js_debug_build_cmd,
 
 	},
 
@@ -368,7 +368,7 @@ return {
 	{
 		'Mofiqul/dracula.nvim',
 		config = function()
-		 vim.cmd [[colorscheme dracula-soft]]
+			vim.cmd [[colorscheme dracula-soft]]
 		end,
 	},
 
@@ -768,10 +768,25 @@ return {
 		end
 	},
 	{
-               "mfussenegger/nvim-dap-python",		
+		"mfussenegger/nvim-dap-python",
 		config = function()
-                  require("dap-python").setup("~/.virtualenvs/myenv/bin/python")
+			require("dap-python").setup("~/.virtualenvs/myenv/bin/python")
 		end
 	},
-{ 'echasnovski/mini.ai', version = '*' },
+	{ 'echasnovski/mini.ai',    version = '*' },
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		-- stylua: ignore
+		keys = {
+			{ "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+			{ "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+			{ "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+			{ "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+			{ "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+		},
+	},
+
 }
