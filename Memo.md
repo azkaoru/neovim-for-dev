@@ -335,5 +335,16 @@ source install.shを実行、You must setup copilot with either copilot.lua or c
 ログインに成功すると、apps.jsonが作成され、それを読み込みにいく。
 
 
+## Rocky linuxのショートカット変更メモ
+
+
+setting  -> keyboard
+
+system -> アクティビティ画面を表示する -> 無変換
+
+ナビゲーション -> ウィンドウを切り替える -> Kana
+
+
+windows -> view split on right -> Alt + r
 
 
