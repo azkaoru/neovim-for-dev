@@ -43,6 +43,7 @@ require("whichkey")
 require("whichkey-jboss")
 require("whichkey-ansible")
 require("whichkey-asciidoctor")
+require("whichkey-dap-python")
 
 -- toggleterm setting
 function _G.set_terminal_keymaps()

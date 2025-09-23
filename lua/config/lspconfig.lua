@@ -78,7 +78,7 @@ lspconfig.pyright.setup {
     capabilities = capabilities,
     filetypes = { "python" },
     root_dir = util.root_pattern(".venv"),
-    cmd = { "bash", "-c", "source ~/.virtualenvs/myenv/bin/activate && ~/.virtualenvs/myenv/bin/pyright-langserver --stdio" },
+    cmd = { "bash", "-c", "source ~/.virtualenvs/pyright/bin/activate && ~/.virtualenvs/pyright/bin/pyright-langserver --stdio" },
     settings = {
       python = {
         pythonPath = '.venv/bin/python', -- Windowsなら .venv/Scripts/python.exe

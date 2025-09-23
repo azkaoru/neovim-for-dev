@@ -63,6 +63,7 @@ wk.add({
 	{ "<F9>",       "<cmd>lua require'dap'.continue()<cr>",                                                    desc = "Continue",                      mode = "n" },
 	{ "<F10>",      "<cmd>lua require'dap'.step_out()<cr>",                                                    desc = "Step out",                      mode = "n" },
 	{ "<leader>dd", "<cmd>lua require'dap'.disconnect()<cr>",                                                  desc = "Disconnect",                    mode = "n" },
+	{ "<leader>dc",       "<cmd>lua require'dap'.continue()<cr>",                                                    desc = "Continue",                      mode = "n" },
 	{ "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>",                                                   desc = "Terminate",                     mode = "n" },
 	{ "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>",                                                 desc = "Open REPL",                     mode = "n" },
 	{ "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>",                                                    desc = "Run last",                      mode = "n" },
@@ -155,8 +156,8 @@ wk.add({
 	{ "<leader>m", "<cmd>Chowcho<CR>", desc = "chowcho Window Move", mode = "n" },
 
 	-- vim-doge
-	{ "<space>D", group = "doge" }, -- group
-	{ "<space>Dg", "<cmd>DogeGenerate<CR>", desc = "DogeGenerate docgen", mode = "n" },
+	-- { "<space>D", group = "doge" }, -- group
+	-- { "<space>Dg", "<cmd>DogeGenerate<CR>", desc = "DogeGenerate docgen", mode = "n" },
 	-- CopilotChat.nvim keymappings
 	--{ '<leader>cco', ':CopilotChat<CR>', { noremap = true, silent = true })
 	{ "<leader>c", group = "Copilot" }, -- group
