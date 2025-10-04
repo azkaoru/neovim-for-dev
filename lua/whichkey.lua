@@ -58,17 +58,16 @@ wk.add({
 	{ "<leader>ba", "<cmd>Telescope dap list_breakpoints<cr>",                                                 desc = "List breakpoints",              mode = "n" },
 
 	{ "<leader>d",  group = "DEBUG" }, -- group
-	{ "<F7>",       "<cmd>lua require'dap'.step_over()<cr>",                                                   desc = "Step over",                     mode = "n" },
-	{ "<F8>",       "<cmd>lua require'dap'.step_into()<cr>",                                                   desc = "Step into",                     mode = "n" },
-	{ "<F9>",       "<cmd>lua require'dap'.continue()<cr>",                                                    desc = "Continue",                      mode = "n" },
-	{ "<F10>",      "<cmd>lua require'dap'.step_out()<cr>",                                                    desc = "Step out",                      mode = "n" },
+	{ "<leader>dso",       "<cmd>lua require'dap'.step_over()<cr>",                                                   desc = "Step over",                     mode = "n" },
+	{ "<leader>dsi",       "<cmd>lua require'dap'.step_into()<cr>",                                                   desc = "Step into",                     mode = "n" },
+	{ "<leader>do",  "<cmd>lua require'dap'.step_out()<cr>",                                                    desc = "Step out",                      mode = "n" },
 	{ "<leader>dd", "<cmd>lua require'dap'.disconnect()<cr>",                                                  desc = "Disconnect",                    mode = "n" },
 	{ "<leader>dc",       "<cmd>lua require'dap'.continue()<cr>",                                                    desc = "Continue",                      mode = "n" },
 	{ "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>",                                                   desc = "Terminate",                     mode = "n" },
 	{ "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>",                                                 desc = "Open REPL",                     mode = "n" },
 	{ "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>",                                                    desc = "Run last",                      mode = "n" },
 	{ "<leader>di", function() require "dap.ui.widgets".hover() end,                                           desc = "Variables",                     mode = "n" },
-	{ "<space>d",  group = "DAPUI" }, -- group
+	{ "<space>d",  group = "DAP" }, -- group
 	{ "<space>dt", "<cmd>lua require('dapui').toggle()<cr>",                                                    desc = "DAPUI toggle",                      mode = "n" },
 	{ "<space>dc", "<cmd>lua require('dapui').close('sidebar')<cr>",                                                    desc = "DAPUI close",                      mode = "n" },
 	{

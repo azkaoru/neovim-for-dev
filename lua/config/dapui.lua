@@ -94,6 +94,8 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
 
 
 -- https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#python
+-- local home = vim.loop.os_homedir()
+--
 -- dap.adapters.python = function(cb, config)
 --   if config.request == 'attach' then
 --     ---@diagnostic disable-next-line: undefined-field
@@ -111,7 +113,7 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
 --   else
 --     cb({
 --       type = 'executable',
---       command = '~/.virtualenvs/debugpy/bin/python',
+--       command = home .. '/.virtualenvs/debugpy/bin/python',
 --       args = { '-m', 'debugpy.adapter' },
 --       options = {
 --         source_filetype = 'python',
@@ -146,31 +148,32 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
 --   },
 -- }
 --
-dap.adapters.python = {
-  type = "server",
-  host = "localhost",
-  port = 5678,
-}
-dap.configurations.python = {
-  {
-    type = "python",
-    request = "attach",
-    name = "Attach to Remote (debugpy)",
-    connect = {
-      host = "127.0.0.1",
-      port = 5678,
-    },
-    pathMappings = {
-      {
-        -- Neovim 側で開いているローカルのパス
-        localRoot = "/home/hanzo/ghq/github.com/azkaoru/barbican",
-        -- コンテナ内で Python が見ているパス
-        remoteRoot = "/opt/barbican",
-      },
-    },
-  },
-}
 
+-- dap.adapters.python = {
+--   type = "server",
+--   host = "localhost",
+--   port = 5678,
+-- }
+-- dap.configurations.python = {
+--   {
+--     type = "python",
+--     request = "attach",
+--     name = "Attach to Remote (debugpy)",
+--     connect = {
+--       host = "127.0.0.1",
+--       port = 5678,
+--     },
+--     pathMappings = {
+--       {
+--         -- Neovim 側で開いているローカルのパス
+--         localRoot = "/home/hanzo/ghq/github.com/azkaoru/barbican",
+--         -- コンテナ内で Python が見ているパス
+--         remoteRoot = "/opt/barbican",
+--       },
+--     },
+--   },
+-- }
+--
   require("dap-vscode-js").setup ({
     node_path = "node",
     debugger_path = DEBUGGER_PATH,
