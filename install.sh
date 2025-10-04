@@ -1,25 +1,22 @@
 #!/bin/sh -x
 
-export VIMRUNTIME="/usr/share/nvim/runtime"
-export NVIM_DEV=~/.config/nvim-dev
+#export VIMRUNTIME="/usr/share/nvim/runtime"
+export NVIM_CONFIG=~/.config/nvim
 export DISPLAY=":1"  # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
 
-rm -rf $NVIM_DEV
-mkdir -p $NVIM_DEV/share
-mkdir -p $NVIM_DEV/nvim
+rm -fr  $NVIM_CONFIG
+mkdir -p $NVIM_CONFIG
 
-# GNU Stow を使って、現在のディレクトリにある設定を $NVIM_DEV/nvim にシンボリックリンクする
-stow --restow --target=$NVIM_DEV/nvim .
+# GNU Stow を使って、現在のディレクトリにある設定を $NVIM_CONFIG にシンボリックリンクする
+stow --restow --target=$NVIM_CONFIG .
 
 # nvimをnvで起動するエイリアス
-alias nv='XDG_DATA_HOME=$NVIM_DEV/share XDG_CONFIG_HOME=$NVIM_DEV nvim'
+alias nv='nvim'
 
 # bashrcで読み込むための設定
 cat <<EOF > ~/.bashrc_neovim_dev
-export VIMRUNTIME="$VIMRUNTIME"
-export NVIM_DEV=$NVIM_DEV
 export DISPLAY="$DISPLAY"
-alias nv='XDG_DATA_HOME=\$NVIM_DEV/share XDG_CONFIG_HOME=\$NVIM_DEV nvim'
+alias nv='nvim'
 EOF
 
 ADD_LINE="source ~/.bashrc_neovim_dev"

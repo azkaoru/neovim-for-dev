@@ -77,7 +77,9 @@ lspconfig.pyright.setup {
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "python" },
-    root_dir = util.root_pattern(".venv"),
+    -- root_dir = util.root_pattern(".venv"),
+    root_dir = util.root_pattern("pyrightconfig.json", "setup.py", "pyproject.toml", ".git"),
+
     cmd = { "bash", "-c", "source ~/.virtualenvs/pyright/bin/activate && ~/.virtualenvs/pyright/bin/pyright-langserver --stdio" },
     settings = {
       python = {
