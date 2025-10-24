@@ -14,7 +14,7 @@ mkdir -p $NVIM_DATA
 # GNU Stow を使って、現在のディレクトリにある設定を $NVIM_CONFIG にシンボリックリンクする
 # stowがインストールされていない場合は、ln -sでシンボリックリンクを作成する
 if command -v stow > /dev/null 2>&1; then
-    stow --restow --target=$NVIM_CONFIG .
+    stow --restow --target="$NVIM_CONFIG" .
 else
     # stowが利用できない場合は、手動でシンボリックリンクを作成
     SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
