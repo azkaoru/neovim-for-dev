@@ -1,3 +1,10 @@
+local function relative_filepath()
+  local full_path = vim.fn.expand("%:p")  -- 現在のバッファのフルパス
+  local cwd = vim.fn.getcwd()
+  local rel_path = vim.fn.fnamemodify(full_path, ":.")  -- cwd 相対パス
+  return rel_path
+end
+
 local gps = require "nvim-gps"
 require("lualine").setup {
 	options = {
@@ -18,7 +25,7 @@ require("lualine").setup {
 					if filename == '' then
 						return '[No Name]'
 					end
-					return '📝 ' .. filename
+					return '📝 ' .. relative_filepath()
 				end,
 				on_click = function(_, _, _) -- ← クリックイベントを定義
 					local path = vim.fn.expand('%:p')

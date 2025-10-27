@@ -209,38 +209,6 @@ return {
 		dependencies = { 'nvim-lua/plenary.nvim' },
 	},
 
-	-- User interface
-	{
-		"stevearc/dressing.nvim",
-		event = "BufEnter",
-		config = function()
-			require("dressing").setup {
-				select = {
-					backend = { "telescope", "fzf", "builtin" },
-				},
-			}
-		end,
-		enabled = false,
-	},
-
-	-- Completion
-	{
-		"ms-jpq/coq_nvim",
-		branch = "coq",
-		event = "InsertEnter",
-		lazy = true,
-		build = ":COQdeps",
-		config = function()
-			require("config.coq")
-		end,
-		dependencies = {
-			{ "ms-jpq/coq.artifacts",  branch = "artifacts" },
-			{ "ms-jpq/coq.thirdparty", branch = "3p" },
-		},
-		enabled = false,
-	},
-
-
 	-- lspkind
 	{
 		'onsails/lspkind.nvim',

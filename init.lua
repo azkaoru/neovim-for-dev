@@ -90,6 +90,14 @@ vim.keymap.set("n", "<leader>7", require("telescope.builtin").current_buffer_fuz
 vim.keymap.set("n", "<leader>8", require("telescope.builtin").lsp_dynamic_workspace_symbols, { desc = "Find Type From Workspace" })
 vim.keymap.set("n", "<space>b", ":b#<CR>", { desc = "Buffer Back" })
 
+-- Normal モードで Tab / Shift-Tab でバッファ移動
+vim.keymap.set("n", "<Tab>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
+
+-- 非アクティブbufferを白色の文字にする
+vim.api.nvim_set_hl(0, 'BufferInactive', { fg = '#ffffff' })
+vim.api.nvim_set_hl(0, 'BufferCurrent', { fg = '#b2f2bb',bold = true })  -- やさしいみどり
+vim.api.nvim_set_hl(0, 'BufferCurrentSign', { fg = '#b2f2bb', bold = true })  -- やさしいみどり
 
 -- 上方向に1ページスクロールする関数
 local function scroll_page_up()
@@ -104,4 +112,5 @@ end
 -- キーマッピングの設定
 vim.keymap.set('n', '<leader>su', scroll_page_up, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sd', scroll_page_down, { noremap = true, silent = true })
+
 
