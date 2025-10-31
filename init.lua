@@ -86,8 +86,10 @@ vim.api.nvim_set_keymap("n", "<leader>xf", ":%!xmllint --format --recover --enco
 vim.keymap.set("n", "j", "<Plug>(accelerated_jk_gj)")
 vim.keymap.set("n", "k", "<Plug>(accelerated_jk_gk)")
 
-vim.keymap.set("n", "<leader>7", require("telescope.builtin").current_buffer_fuzzy_find, { desc= "Fuzzy Find Current Buffer"})
-vim.keymap.set("n", "<leader>8", require("telescope.builtin").lsp_dynamic_workspace_symbols, { desc = "Find Type From Workspace" })
+vim.keymap.set("n", "<leader>7", require("telescope.builtin").current_buffer_fuzzy_find,
+	{ desc = "Fuzzy Find Current Buffer" })
+vim.keymap.set("n", "<leader>8", require("telescope.builtin").lsp_dynamic_workspace_symbols,
+	{ desc = "Find Type From Workspace" })
 vim.keymap.set("n", "<space>b", ":b#<CR>", { desc = "Buffer Back" })
 
 -- Normal モードで Tab / Shift-Tab でバッファ移動
@@ -96,21 +98,45 @@ vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", { noremap = true, sile
 
 -- 非アクティブbufferを白色の文字にする
 vim.api.nvim_set_hl(0, 'BufferInactive', { fg = '#ffffff' })
-vim.api.nvim_set_hl(0, 'BufferCurrent', { fg = '#b2f2bb',bold = true })  -- やさしいみどり
-vim.api.nvim_set_hl(0, 'BufferCurrentSign', { fg = '#b2f2bb', bold = true })  -- やさしいみどり
+vim.api.nvim_set_hl(0, 'BufferCurrent', { fg = '#b2f2bb', bold = true })     -- やさしいみどり
+vim.api.nvim_set_hl(0, 'BufferCurrentSign', { fg = '#b2f2bb', bold = true }) -- やさしいみどり
 
 -- 上方向に1ページスクロールする関数
 local function scroll_page_up()
-  vim.api.nvim_input('<PageUp>')
+	vim.api.nvim_input('<PageUp>')
 end
 
 -- 下方向に1ページスクロールする関数
 local function scroll_page_down()
-  vim.api.nvim_input('<PageDown>')
+	vim.api.nvim_input('<PageDown>')
 end
 
 -- キーマッピングの設定
 vim.keymap.set('n', '<leader>su', scroll_page_up, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sd', scroll_page_down, { noremap = true, silent = true })
 
+-- nvim-linter のlinterを実行するキーマッピングの設定
+vim.keymap.set("n", "<leader>rl", function()
+	local lint = require("lint")
+	lint.linters_by_ft = {
+		python = { "flake8" },
+	}
+	-- まず lint 実行
+	lint.try_lint()
+	vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+		callback = function()
+			require("lint").try_lint()
+		end,
+	})
+end, { desc = "Run lint" })
 
+-- vim.diagnostic.config({
+--   virtual_text = {
+--     prefix = "●", -- 表示前の記号
+--     spacing = 2,  -- テキストとの間隔
+--   },
+--   signs = true,        -- 左に記号を表示
+--   underline = true,    -- 下線を引く
+--   update_in_insert = false, -- 挿入中は更新しない
+--   severity_sort = true,     -- エラーを重要度順に並べる
+-- })

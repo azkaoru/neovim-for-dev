@@ -91,6 +91,20 @@ local ansibug_configurations = {
 
 dap.configurations["yaml.ansible"] = ansibug_configurations
 
+dap.configurations.python = {
+  {
+    type = 'python',
+    request = 'launch',
+    name = 'Debug current file',
+    program = function()
+      return vim.fn.expand('%:p')  -- 現在開いているファイルの絶対パスを返す
+    end,
+    pythonPath = function()
+      return vim.fn.getcwd() .. '/.venv/bin/python'  -- 仮想環境のPython
+    end,
+    console = 'integratedTerminal',
+  },
+}
 
 
 -- https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#python
@@ -174,6 +188,7 @@ dap.configurations["yaml.ansible"] = ansibug_configurations
 --   },
 -- }
 --
+
   require("dap-vscode-js").setup ({
     node_path = "node",
     debugger_path = DEBUGGER_PATH,

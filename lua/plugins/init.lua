@@ -297,7 +297,7 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "pyright", "lua_ls" },
+				ensure_installed = { "pyright", "lua_ls", "ruff" },
 			})
 		end,
 	},
@@ -740,7 +740,8 @@ return {
 	{
 		"mfussenegger/nvim-dap-python",
 		config = function()
-			require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
+			-- require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
+			require("dap-python").setup()
 		end
 	},
 	{ 'echasnovski/mini.ai',    version = '*' },
@@ -772,5 +773,15 @@ return {
 			search = {},                                                                  -- if you add your own searches, they go here.
 			options = {}                                                                  -- if you add plugin options, they go here.
 		},
+	},
+	{
+		"mfussenegger/nvim-lint",
+		event = "BufWritePost",
+		config = function()
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				python = { "ruff", "flake8" },
+			}
+		end,
 	},
 }
