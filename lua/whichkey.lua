@@ -162,6 +162,11 @@ wk.add({
 	{ "<leader>c", group = "Copilot" }, -- group
 	{ "<leader>cco", ":CopilotChatOpen<CR>", desc = "CopilotChatを開く", mode = "n" },
 
+	{ "<space>p", group = "PREVIEW" }, -- group
+	{ "<space>pm", "<Plug>MarkdownPreview", desc = "Markdownプレビュー開始", mode = "n" },
+	{ "<space>ps", "<Plug>MarkdownPreviewStop", desc = "Markdownプレビュー停止", mode = "n" },
+	{ "<space>pt", "<Plug>MarkdownPreviewToggle", desc = "Markdownプレビュー切り替え", mode = "n" },
+
 	{ "<space>s", group = "STEP DEBUG" }, -- group
          { "<space>so", "<cmd>lua require'dap'.step_over()<cr>", desc= "Step over",mode = "n"},
          { "<space>si", "<cmd>lua require'dap'.step_into()<cr>", desc= "Step into",mode = "n"},

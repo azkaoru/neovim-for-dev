@@ -1,19 +1,10 @@
-function gen_doc()
-  local input = vim.fn.expand("%")
-  local timestamp = os.time()
-  local html_out = "/tmp/asciidoc_" .. timestamp .. ".html"
-
-  vim.fn.jobstart({ "asciidoctor", "-o", html_out, input }, {
-    on_exit = function()
-      vim.fn.jobstart({ "xdg-open", html_out })
-    end
-  })
-end
-
 local wk = require("which-key")
-	wk.add({
-		{ "<space>a",  group = "Asciidoctor" }, -- group
-{ "<space>ag", ":lua gen_doc()<CR>", desc= "Asciidoctor Gen Doc", mode ="n"},
+
+wk.add({
+	{ "<space>a", group = "ASCIIDOCTOR" }, -- group
+	{ "<space>ap", ":lua require('utils.asciidoctor').gen_html()<CR>", desc = "AsciiDocプレビュー", mode = "n" },
+	{ "<space>ah", ":lua require('utils.asciidoctor').gen_html()<CR>", desc = "AsciiDoc HTML生成", mode = "n" },
+	{ "<space>af", ":lua require('utils.asciidoctor').gen_pdf()<CR>", desc = "AsciiDoc PDF生成", mode = "n" },
+	{ "<space>al", ":lua require('utils.asciidoctor').start_live_preview()<CR>", desc = "AsciiDocライブプレビュー", mode = "n" },
+	{ "<space>ai", ":lua require('utils.asciidoctor').paste_image()<CR>", desc = "画像貼り付け", mode = "n" },
 })
-
-
