@@ -62,9 +62,6 @@ return {
 				end,
 				desc = "Buffer Local Keymaps (which-key)",
 			},
-		},
-		dependencies = {
-			'echasnovski/mini.icons',
 		}
 		-- config = function()
 		--                require("which-key").setup()
@@ -781,7 +778,10 @@ return {
 			local lint = require("lint")
 			lint.linters_by_ft = {
 				python = { "ruff", "flake8" },
+				 markdown = { 'textlint' },
+				 text = { 'textlint' },
 			}
+			require("config/nvim-lint")
 		end,
 	},
 }

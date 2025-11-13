@@ -88,14 +88,11 @@ local config = {
               enabled = "all",
           },
       },
-      contentProvider = {
-          preferred = 'fernflower'
-      },
-      project = {
-        referencedLibraries = get_libs() ,
-      },
-      signatureHelp = { enabled = true },
-      contentProvider = { preferred = 'fernflower' },
+       contentProvider = { preferred = 'fernflower' },
+       project = {
+         referencedLibraries = get_libs() ,
+       },
+       signatureHelp = { enabled = true },
       completion = {
         favoriteStaticMembers = {
           "org.hamcrest.MatcherAssert.assertThat",

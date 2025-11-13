@@ -11,8 +11,6 @@ end
 
 local luasnip = require "luasnip"
 
-require("luasnip/loaders/from_vscode").lazy_load()
-
 local has_words_before = function()
 	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
 		return false

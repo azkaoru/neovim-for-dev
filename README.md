@@ -215,6 +215,32 @@ Download the React DevTools for a better development experience: https://reactjs
 
 # 備忘メモ
 
+## LuaSnip Custom Snippets
+
+### Shell Script Here Document Snippets
+
+以下のトリガーでhere docスニペットが利用可能：
+
+- `heredoc` - 基本的なhere document
+- `heredoc_file` - ファイルに書き込み（新規作成）
+- `heredoc_append` - ファイルに追記
+- `heredoc_var` - 変数展開ありのhere document
+- `heredoc_var_file` - 変数展開ありでファイル書き込み
+- `heredoc_var_append` - 変数展開ありでファイル追記
+
+使用方法：
+1. shellスクリプトファイル（.sh）を開く
+2. 挿入モードでトリガーを入力
+3. Tabキーでスニペット展開
+4. Tab/Shift+Tabでプレースホルダー間を移動
+
+**注意**: スニペットが表示されない場合は、`:LuaSnipListAvailable` で利用可能なスニペットを確認してください。
+
+**トラブルシューティング**:
+- スニペットが表示されない場合: `:checkhealth luasnip` でLuaSnipの状態を確認
+- ファイルタイプが正しく設定されているか: `:set filetype?` で確認
+- スニペット一覧が空の場合: 設定ファイルの再読み込みを試す
+
 ## seach and confirm,replace
 
 press ,fg to live grep

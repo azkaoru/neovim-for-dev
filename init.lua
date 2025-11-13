@@ -118,9 +118,9 @@ vim.keymap.set('n', '<leader>sd', scroll_page_down, { noremap = true, silent = t
 -- nvim-linter のlinterを実行するキーマッピングの設定
 vim.keymap.set("n", "<leader>rl", function()
 	local lint = require("lint")
-	lint.linters_by_ft = {
-		python = { "flake8" },
-	}
+	-- lint.linters_by_ft = {
+	-- 	python = { "flake8" },
+	-- }
 	-- まず lint 実行
 	lint.try_lint()
 	vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {

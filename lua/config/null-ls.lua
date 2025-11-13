@@ -7,6 +7,6 @@
       require("null-ls").builtins.diagnostics.ansiblelint, -- ansible diagnostics
       require("null-ls").builtins.diagnostics.yamllint, -- yaml diagnostics
       require("null-ls").builtins.formatting.yamlfmt, -- yaml formatting
-      require("null-ls").builtins.diagnostics.textlint.with({ filetypes = { "markdown","asciidoc" } }),
+      -- require("null-ls").builtins.diagnostics.textlint.with({ filetypes = { "markdown","asciidoc" } }),
     },
   })
