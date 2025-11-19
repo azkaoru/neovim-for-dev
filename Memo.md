@@ -340,11 +340,27 @@ source install.shを実行、You must setup copilot with either copilot.lua or c
 
 setting  -> keyboard
 
-system -> アクティビティ画面を表示する -> 無変換
+system -> アクティビティ画面を表示する -> Kana
 
-ナビゲーション -> ウィンドウを切り替える -> Kana
+ナビゲーション -> アプリケーションを切り替える -> 無変換
+
+window -> 右半分に表示する -> ctrl + shift + r
+
+window -> 左半分に表示する -> ctrl + shift + r
 
 
-windows -> view split on right -> Alt + r
+## 日本語入力について
 
+キーボードの入力ソースで、日本語(anthy) と 英語 の順で追加する
 
+ibus-setupを実行し、キーボードショートカットでZenkaku_Hankakuを指定する。これで日本語(anthy)を利用しているときは全角で切り替えることができる。
+
+vimで作業中、日本語入力モードか、英語入力モードがどちらかを利用しているか分からなくなった場合に、画面に選択ボタンを表示させたい場合は以下を実行する(Insertボタンは普段利用しないので、Insertを割り当て)。
+
+なお、選択画面表示後、選択するためにエンターを押さないといけないのが面倒である。
+
+setting  -> keyboard
+
+キーボードショートカット-> view and customize short cuts ->次の入力ソースを切り替える -> Insertをオス。
+
+利用想定は、vim作業中で日本語で入力中(anthy利用中)にわからなくなったら、Insertで英語(en)に切り替える。
