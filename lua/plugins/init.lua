@@ -468,9 +468,18 @@ return {
 
 	{
 		"github/copilot.vim",
-		-- config       = function()
-		-- 	require("copilot").setup()
-		-- end
+		config = function()
+			-- Tabキーのデフォルトマッピングを無効化
+			vim.g.copilot_no_tab_map = true
+			-- Scroll LockキーをCopilotの補完受け付けに割り当て
+			vim.keymap.set("i", "<C-o>", 'copilot#Accept("<CR>")',
+				{ silent = true, expr = true, script = true, replace_keycodes = false, desc = "Copilot補完を受け付ける" })
+			-- その他のCopilotキーマッピング（オプション）
+			vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)", { desc = "次のCopilot補完" })
+			vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)", { desc = "前のCopilot補完" })
+			-- vim.keymap.set("i", "<C-d>", "<Plug>(copilot-dismiss)", { desc = "Copilot補完を破棄" })
+			-- vim.keymap.set("i", "<C-s>", "<Plug>(copilot-suggest)", { desc = "Copilot補完を提案" })
+		end
 	},
 	-- {
 	-- 	"zbirenbaum/copilot.lua",
