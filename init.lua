@@ -130,6 +130,13 @@ vim.keymap.set("n", "<leader>rl", function()
 	})
 end, { desc = "Run lint" })
 
+
+vim.keymap.set({ "i", "c" }, "<f12>", function()
+  vim.fn.jobstart({ "ibus", "engine", "xkb:us::eng" })
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+end)
+
+
 -- vim.diagnostic.config({
 --   virtual_text = {
 --     prefix = "●", -- 表示前の記号

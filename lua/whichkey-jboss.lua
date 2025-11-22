@@ -107,7 +107,7 @@ local wk = require("which-key")
 { "<space>mp", function() run_compile() end, desc= "Maven clean package", mode ="n"},
 { "<space>mi", function() run_clean_install_using_current_buffer_file() end, desc= "Maven clean install using current's buffer pom.xml", mode ="n"},
 { "<F11>", function() run_compile() end, desc= "Maven Compile",mode ="n"},
-{ "<F12>", function() run_wildfly_deploy() end,desc= "Maven Wildfly Deploy",mode ="n"},
+-- { "<F12>", function() run_wildfly_deploy() end,desc= "Maven Wildfly Deploy",mode ="n"},
 
 })
 
