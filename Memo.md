@@ -346,7 +346,7 @@ system -> アクティビティ画面を表示する -> Kana
 
 window -> 右半分に表示する -> ctrl + shift + r
 
-window -> 左半分に表示する -> ctrl + shift + r
+window -> 左半分に表示する -> ctrl + shift + l
 
 
 ## 日本語入力について
@@ -371,6 +371,67 @@ setting  -> keyboard
 
 デフォルトはTabだが、他のプラグインが候補を表示している場合に、tab  で選択できない場合があるので、<C-o>に変更している。
 
-## 日本語入力に、ノーマルモードに戻るときに、英語入力モードに戻して、Escを押すのが面倒
+## 日本語入力に、ノーマルモードに戻るときに、英語入力モードに戻して、Escを押すのが面倒L
 
 <f12>を押すと、英語入力モードに戻して、ノーマルモードに戻るようにしている。
+
+
+## tilix Gnomeターミナルの導入について
+
+Rocky9からRoxky10にアップグレードした際に、Gnomeターミナの日本語入力がうまく動作しなかったため、tilixを導入した。
+
+install
+
+``` sh
+sudo dnf install epel-release
+sudo dnf -y install tilix
+```
+
+Settings
+
+* Preferences -> Appearance -> Terminal title size -> None
+* Preferences -> Appearance -> Tab Position -> Left
+* Preferences -> Appearance -> Theme -> Dark
+* Preferences -> Appearance -> チェックボックス -> すべてチェックする。
+
+
+Shourtcut
+
+下に画面を追加。
+
+* Ssession -> Add terminal down -> Shift + Ctrl + D
+
+みぎに画面を追加。
+
+* Ssession -> Add terminal right -> Shift + Ctrl + L
+
+
+分割した画面の移動
+
+* Ssession -> Switch to the down -> Alt + J
+* Ssession -> Switch to the left -> Alt + H
+* Ssession -> Switch to the right -> Alt + L
+* Ssession -> Switch to the up -> Alt + K
+
+Quake
+
+Hide window when foucs is lost 以外すべてチェックする。
+
+
+## rocky10アップグレード後Copilot authでnodejs not found
+
+nodejsのインストール
+
+```
+sudo dnf -y install nodejs24
+sudo alternatives --install /usr/bin/node node /usr/bin/node-24 24
+sudo alternatives --set node /usr/bin/node-24
+```
+
+
+
+
+
+
+
+
