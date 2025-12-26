@@ -180,15 +180,34 @@ local function get_python_path()
   -- Check if venv-selector has set VIRTUAL_ENV
   local venv = os.getenv("VIRTUAL_ENV")
   if venv then
-    return venv .. "/bin/python"
+    -- Check OS for proper path construction
+    local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
+    if is_windows then
+      local python_path = venv .. "\\Scripts\\python.exe"
+      if vim.fn.executable(python_path) == 1 then
+        return python_path
+      end
+    else
+      return venv .. "/bin/python"
+    end
   end
   
   -- Check for .venv in current directory
   local cwd = vim.fn.getcwd()
-  if vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
-    return cwd .. '/.venv/bin/python'
-  elseif vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
-    return cwd .. '/venv/bin/python'
+  local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
+  
+  if is_windows then
+    if vim.fn.executable(cwd .. '\\.venv\\Scripts\\python.exe') == 1 then
+      return cwd .. '\\.venv\\Scripts\\python.exe'
+    elseif vim.fn.executable(cwd .. '\\venv\\Scripts\\python.exe') == 1 then
+      return cwd .. '\\venv\\Scripts\\python.exe'
+    end
+  else
+    if vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+      return cwd .. '/.venv/bin/python'
+    elseif vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+      return cwd .. '/venv/bin/python'
+    end
   end
   
   -- Default to system python
@@ -222,8 +241,14 @@ vim.api.nvim_create_autocmd("User", {
     -- Update settings for all Pyright clients
     for _, client in ipairs(vim.lsp.get_clients()) do
       if client.name == "pyright" then
-        client.config.settings.python.pythonPath = python_path
-        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+        -- Create new settings object to ensure proper update
+        local new_settings = vim.tbl_deep_extend("force", client.config.settings, {
+          python = {
+            pythonPath = python_path,
+          }
+        })
+        client.config.settings = new_settings
+        client.notify("workspace/didChangeConfiguration", { settings = new_settings })
       end
     end
     
