@@ -729,6 +729,9 @@ return {
 			search = {},                                                                  -- if you add your own searches, they go here.
 			options = {}                                                                  -- if you add plugin options, they go here.
 		},
+		config = function(_, opts)
+			require("venv-selector").setup(opts)
+		end,
 	},
 	{
 		"mfussenegger/nvim-lint",
