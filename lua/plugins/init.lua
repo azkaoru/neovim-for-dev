@@ -167,15 +167,16 @@ return {
 	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
-		lazy = true,
-		event = "BufRead",
+		lazy = false,
+		-- event = "BufRead",
 		build = ":TSUpdate",
 		config = function()
 			require("config.treesitter")
 		end,
 		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
+			{ "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
 		},
+		branch = "master",
 	},
 
 	-- FZF
