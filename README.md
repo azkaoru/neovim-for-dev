@@ -159,6 +159,82 @@ step out : ,so
 
 デバック再実行はdlで実行可能。
 
+### Python development
+
+このNeovim設定は、Pythonの仮想環境（venv）を使った開発をサポートしています。
+
+* Requirements
+
+Python開発には以下のツールが必要です：
+
+** Pyright Language Server
+
+Masonが自動的にインストールします。手動でインストールする場合：
+
+```
+:Mason
+```
+
+Masonを起動し、`pyright`を検索してインストールします。
+
+** Python linters (optional)
+
+```
+pip3 install ruff flake8
+```
+
+* Virtual Environment Setup
+
+プロジェクトでPythonの仮想環境を使用する場合、以下の方法で設定します：
+
+```bash
+# プロジェクトディレクトリで仮想環境を作成
+python3 -m venv .venv
+
+# 仮想環境をアクティベート
+source .venv/bin/activate
+
+# 必要なパッケージをインストール
+pip install -r requirements.txt
+```
+
+* Using venv-selector
+
+仮想環境を選択するには：
+
+1. Pythonファイルを開く
+2. `,v` を押して venv-selector を起動
+3. 使用したい仮想環境を選択
+
+仮想環境を選択すると、Pyrightは自動的に選択されたPython interpreterとそのパッケージを認識します。
+
+* How it works
+
+このNeovim設定は以下の仕組みで仮想環境のパッケージを認識します：
+
+1. `venv-selector.nvim` が仮想環境を選択すると、`VIRTUAL_ENV` 環境変数が設定されます
+2. Pyrightの設定が自動的に更新され、選択されたPython interpreterを使用します
+3. LSPが `workspace/didChangeConfiguration` イベントを受け取り、新しい設定でパッケージを認識します
+
+* Debugging Python
+
+Python のデバッグには以下のキーマップを使用します：
+
+- `F5`: デバッグを開始/継続
+- `<C-b>`: ブレイクポイントをトグル
+- `F10`: ステップオーバー
+- `F11`: ステップイン
+- `F12`: ステップアウト
+
+* Troubleshooting
+
+もし外部ライブラリが認識されない場合：
+
+1. 仮想環境が正しくアクティベートされているか確認
+2. `,v` で正しい仮想環境を選択
+3. LSPが起動しているか確認: `:LspInfo`
+4. 必要に応じてLSPを再起動: `:LspRestart`
+
 ### ansible 
 
 * install tools
