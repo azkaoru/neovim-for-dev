@@ -5,7 +5,7 @@ local function relative_filepath()
   return rel_path
 end
 
-local gps = require "nvim-gps"
+local navic = require "nvim-navic"
 require("lualine").setup {
 	options = {
 		icons_enabled = true,

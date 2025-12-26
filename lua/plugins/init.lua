@@ -144,10 +144,10 @@ return {
 		end,
 	},
 	{
-		"SmiteshP/nvim-gps",
+		"SmiteshP/nvim-navic",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
-			require("nvim-gps").setup()
+			require("nvim-navic").setup()
 		end,
 	},
 	{
