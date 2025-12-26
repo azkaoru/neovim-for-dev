@@ -175,19 +175,95 @@ vim.lsp.enable('markdown_oxide')
 
 
 
+-- Function to get Python path from venv or system
+local function get_python_path()
+  local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
+  
+  -- Check if venv-selector has set VIRTUAL_ENV
+  local venv = os.getenv("VIRTUAL_ENV")
+  if venv then
+    local python_path
+    if is_windows then
+      python_path = vim.fs.joinpath(venv, "Scripts", "python.exe")
+    else
+      python_path = vim.fs.joinpath(venv, "bin", "python")
+    end
+    if vim.fn.executable(python_path) == 1 then
+      return python_path
+    end
+  end
+  
+  -- Check for .venv in current directory
+  local cwd = vim.fn.getcwd()
+  
+  if is_windows then
+    local venv_path = vim.fs.joinpath(cwd, ".venv", "Scripts", "python.exe")
+    if vim.fn.executable(venv_path) == 1 then
+      return venv_path
+    end
+    local venv_alt = vim.fs.joinpath(cwd, "venv", "Scripts", "python.exe")
+    if vim.fn.executable(venv_alt) == 1 then
+      return venv_alt
+    end
+  else
+    local venv_path = vim.fs.joinpath(cwd, ".venv", "bin", "python")
+    if vim.fn.executable(venv_path) == 1 then
+      return venv_path
+    end
+    local venv_alt = vim.fs.joinpath(cwd, "venv", "bin", "python")
+    if vim.fn.executable(venv_alt) == 1 then
+      return venv_alt
+    end
+  end
+  
+  -- Default to system python
+  return vim.fn.exepath('python3') or vim.fn.exepath('python') or 'python'
+end
+
+-- Shared Pyright analysis settings
+local pyright_analysis_settings = {
+  typeCheckingMode = "basic",
+  autoSearchPaths = true,
+  useLibraryCodeForTypes = true,
+}
+
 vim.lsp.config.pyright = {
   cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
-  root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile" },
+  root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git" },
   settings = {
     python = {
-      analysis = {
-        typeCheckingMode = "basic",
-      },
+      pythonPath = get_python_path(),
+      analysis = pyright_analysis_settings,
     },
   },
 }
 vim.lsp.enable('pyright')
+
+-- Autocmd to update Pyright settings when venv changes
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VenvSelectPost",
+  callback = function()
+    -- Get the new Python path
+    local python_path = get_python_path()
+    
+    -- Update settings for all Pyright clients
+    for _, client in ipairs(vim.lsp.get_clients({ name = 'pyright' })) do
+      -- Create new settings object preserving all existing settings
+      local new_settings = vim.tbl_deep_extend("force", client.config.settings, {
+        python = {
+          pythonPath = python_path,
+          analysis = pyright_analysis_settings,
+        }
+      })
+      client.config.settings = new_settings
+      client.notify("workspace/didChangeConfiguration", { settings = new_settings })
+    end
+    
+    -- Notify user
+    vim.notify("Pyright updated to use: " .. python_path, vim.log.levels.INFO)
+  end,
+})
 
 -- ****************************
 -- pyright (Python)
