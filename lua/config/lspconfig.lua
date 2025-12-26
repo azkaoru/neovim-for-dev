@@ -177,24 +177,26 @@ vim.lsp.enable('markdown_oxide')
 
 -- Function to get Python path from venv or system
 local function get_python_path()
+  local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
+  
   -- Check if venv-selector has set VIRTUAL_ENV
   local venv = os.getenv("VIRTUAL_ENV")
   if venv then
-    -- Check OS for proper path construction
-    local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
     if is_windows then
       local python_path = venv .. "\\Scripts\\python.exe"
       if vim.fn.executable(python_path) == 1 then
         return python_path
       end
     else
-      return venv .. "/bin/python"
+      local python_path = venv .. "/bin/python"
+      if vim.fn.executable(python_path) == 1 then
+        return python_path
+      end
     end
   end
   
   -- Check for .venv in current directory
   local cwd = vim.fn.getcwd()
-  local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
   
   if is_windows then
     if vim.fn.executable(cwd .. '\\.venv\\Scripts\\python.exe') == 1 then
@@ -241,10 +243,15 @@ vim.api.nvim_create_autocmd("User", {
     -- Update settings for all Pyright clients
     for _, client in ipairs(vim.lsp.get_clients()) do
       if client.name == "pyright" then
-        -- Create new settings object to ensure proper update
+        -- Create new settings object preserving all existing settings
         local new_settings = vim.tbl_deep_extend("force", client.config.settings, {
           python = {
             pythonPath = python_path,
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+            },
           }
         })
         client.config.settings = new_settings
