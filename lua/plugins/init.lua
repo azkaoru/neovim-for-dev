@@ -174,7 +174,7 @@ return {
 			require("config.treesitter")
 		end,
 		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter-textobjects" },
+			{ "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
 		},
 	},
 
