@@ -7,26 +7,64 @@
 
 fedora & rockylinux
 ```
-curl https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux64.tar.gz -OL
-tar xzvf nvim-linux64.tar.gz
-sudo mv ./nvim-linux64/bin/nvim /usr/local/bin
-sudo cp -r nvim-linux64/share/nvim /usr/share/
+NVIM_VER=v0.11.6
+curl https://github.com/neovim/neovim/releases/download/$NVIM_VER/nvim-linux-x86_64.tar.gz -LO
+tar -zxvf nvim-linux-x86_64.tar.gz
+sudo mv ./nvim-linux-x86_64/bin/nvim /usr/local/bin
+sudo cp -r nvim-linux-x86_64/share/nvim /usr/share/
 ```
 
-rhel8 は次のエラーが発生するのでインストールできない。 
+
+
+* github cli, gcc  for copilot chat
+
+github cli(gh)をインストールする。
+
 
 ```
-nvim: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by nvim)
+GITHUB_CLI_VER=2.86.0
+curl https://github.com/cli/cli/releases/download/v$GITHUB_CLI_VER/gh_${GITHUB_CLI_VER}_linux_amd64.tar.gz -LO
+tar -xvf gh_${GITHUB_CLI_VER}_linux_amd64.tar.gz
+sudo mv gh_${GITHUB_CLI_VER}_linux_amd64/bin/gh /usr/local/bin/gh
 ```
 
+gccをインストール
+
+```
+sudo dnf -y install gcc
+```
+
+
+* npm  for makrdown_preview
+
+```
+sudo dnf -y install node
+```
+
+* rg for telescope 
+
+fedora
+
+```
+dnf -y install ripgrep
+```
+
+
+* fd
+
+```
+sudo dnf install -y fd-find
+```
+
+* font
+
+neovimでアイコンで文字化けするので以下のフォントをインストール、インストール後はrebootし、ターミナルの設定よりプロファイルを作成し、プロファイルでフォントが指定できるので、インストールしたフォントを指定する。
 
 * Go-Mono font
 
-
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Go-Mono.zip
-
 ```
-curl https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.1/Go-Mono.zip -LO
+NERD_FONT_VER=v3.4.0
+curl https://github.com/ryanoasis/nerd-fonts/releases/download/$NERD_FONT_VER/Go-Mono.zip -LO
 sudo mkdir -p /usr/share/fonts/go-mono
 sudo mv Go-Mono.zip  /usr/share/fonts/go-mono
 cd /usr/share/fonts/go-mono
@@ -34,56 +72,38 @@ sudo unzip Go-Mono.zip
 sudo fc-cache -v
 ```
 
-展開したファイルを/usr/share/fonts/go-monoに展開する。そのあとにfc-cache -vを実行してgo-mono配下を読み込みされているのを確認する。
 
-そしてrebootし、ターミナルの設定よりプロファイルを作成し、プロファイルでフォントが指定できるので、Go-Monoのフォントを指定する。
+** JetBrainsMono font 
 
-* stow
-
-```
-sudo dnf install epel-release
-sudo dnf -y install stow
-```
-
-* telescope depends
-
-** rg
+https://github.com/ryanoasis/nerd-fonts/releases/download/vX.X.X/JetBrainsMono.zip
 
 ```
-su -
-dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
-dnf -y install ripgrep
+NERD_FONT_VER=v3.4.0
+curl https://github.com/ryanoasis/nerd-fonts/releases/download/$NERD_FONT_VER/JetBrainsMono.zip -LO
+sudo mkdir -p /usr/share/fonts/jetbrain-mono
+sudo mv JetBrainsMono.zip  /usr/share/fonts/jetbrain-mono
+cd /usr/share/fonts/jetbrain-mono
+sudo unzip JetBrainsMono.zip
+sudo fc-cache -v
 ```
 
-** fd
+フォントは、Nert Font Mono Lightを選択した。
 
-```
-sudo dnf install -y fd-find
-```
-
-rhel8だとfd-findパッケージみつからない。
 
 ** for clipboard
 
-neovimのコピー＆ポーストは、OSのクリップボードを利用するための設定。
+neovimのコピー＆ポーストは、OSのクリップボードを利用するための設定。X11を利用している場合のみ
 
 ```
 sudo dnf -y install xclip xsel
 ```
-
-** github cli
-
-
-github cli(gh)をインストールする。
-
-* https://github.com/cli/cli/releases
 
 
 ## install 
 
 
 ```
-source install.sh
+./install.sh
 ```
 
 start neovim
@@ -92,7 +112,7 @@ nv
 ```
 
 
-add ~/.bashrc
+~/.bashrcに以下が追加される。
 
 ```
 export VIMRUNTIME="/usr/share/nvim/runtime"
