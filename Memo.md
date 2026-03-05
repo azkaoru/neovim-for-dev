@@ -431,7 +431,48 @@ sudo alternatives --set node /usr/bin/node-24
 
 
 
+## opencode
 
+```	
+$ cat opencode.json 
+{
+  "$schema": "https://opencode.ai/config.json",
 
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "prompt": "日本語で記載／作成してください。",
+      "tools": {
+        "read": true,
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "grep": true,
+        "glob": true,
+        "list": true,
+        "webfetch": true,
+        "patch": true,
+        "todoread": true,
+        "todowrite": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "prompt": "{file:./default-prompts/plan.txt}",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    }
+  }
+}
+
+```
+
+```
+$ cat ~/.config/opencode/default-prompts/plan.txt 
+すべて日本語で記載してください
+```
 
 
