@@ -8,6 +8,11 @@ end
 
 local vscode_js_debug_build_cmd = "npm install --legacy-peer-deps && npm run compile"
 
+-- obsidian.nvim のインストール制御
+-- OBSIDIAN_VAULT_PATH 環境変数が設定されている場合のみインストール
+local obsidian_vault_path = os.getenv("OBSIDIAN_VAULT_PATH")
+local obsidian_enabled = obsidian_vault_path ~= nil and obsidian_vault_path ~= ""
+
 if is_fedora() then
 	vscode_js_debug_build_cmd = false -- Fedora の場合は build をスキップ
 end
@@ -108,6 +113,7 @@ return {
 	},
 	{
 		"ggandor/lightspeed.nvim",
+		enabled = false, -- flash.nvim を使うため無効化
 		-- keys = { "s", "S", "f", "F", "t", "T" },
 		config = function()
 			require("lightspeed").setup {}
@@ -746,6 +752,48 @@ return {
 			}
 			require("config/nvim-lint")
 		end,
+	},
+
+	-- Obsidian 連携
+	{
+		"epwalsh/obsidian.nvim",
+		version = "*",
+		enabled = obsidian_enabled,
+		lazy = true,
+		ft = "markdown",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		keys = {
+			-- チェックボックスのトグル（markdown ファイルでのみ有効）
+			{ "<leader>chk", "<cmd>ObsidianToggleCheckbox<CR>", ft = "markdown", desc = "チェックボックスをトグル" },
+		},
+		opts = {
+			workspaces = {
+				{ name = "myvault", path = obsidian_vault_path or "" },
+			},
+			-- Daily Notes 設定（Obsidian の daily-notes.json に合わせた設定）
+			daily_notes = {
+				folder = "activityJournals",
+				date_format = "%Y/%m/%d/%Y-%m-%d",
+				template = "_templates/DailyNotesTemplate.md",
+			},
+			-- テンプレート設定
+			templates = {
+				folder = "_templates",
+				date_format = "%Y-%m-%d",
+				time_format = "%H:%M",
+				-- {{date:YYYY-MM-DD}} 形式の変数を置換
+				substitutions = {
+					["date:YYYY-MM-DD"] = function()
+						return os.date("%Y-%m-%d")
+					end,
+					["date:YYYY-MM-DD(ddd)"] = function()
+						return os.date("%Y-%m-%d(%a)")
+					end,
+				},
+			},
+			-- conceallevel 警告を抑制
+			ui = { enable = false },
+		},
 	},
 
 }

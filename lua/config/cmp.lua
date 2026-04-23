@@ -97,16 +97,17 @@ cmp.setup {
 	},
 }
 
-cmp.setup.cmdline("/", {
-	mapping = cmp.mapping.preset.cmdline({
-		["<C-n>"] = { c = cmp.mapping.select_next_item() },
-		["<C-p>"] = { c = cmp.mapping.select_prev_item() },
-		["<CR>"]  = { c = cmp.mapping.confirm() },
-	}),
-	sources = {
-		{ name = "buffer" },
-	},
-})
+-- /検索時はbuffer補完を無効化（誤選択防止のためコメントアウト）
+-- cmp.setup.cmdline("/", {
+-- 	mapping = cmp.mapping.preset.cmdline({
+-- 		["<C-n>"] = { c = cmp.mapping.select_next_item() },
+-- 		["<C-p>"] = { c = cmp.mapping.select_prev_item() },
+-- 		["<CR>"]  = { c = cmp.mapping.confirm() },
+-- 	}),
+-- 	sources = {
+-- 		{ name = "buffer" },
+-- 	},
+-- })
 
 
 cmp.setup.cmdline(":", {

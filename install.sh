@@ -3,14 +3,13 @@
 export VIMRUNTIME="/usr/share/nvim/runtime"
 NVIM_CONFIG=~/.config/nvim
 NVIM_DATA=~/.local/share/nvim
-export DISPLAY=":1"  # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
+export DISPLAY=":1" # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
 export EDITOR="nvim"
 
-rm -fr  $NVIM_CONFIG
-rm -fr  $NVIM_DATA
+rm -fr $NVIM_CONFIG
+rm -fr $NVIM_DATA
 mkdir -p $NVIM_CONFIG
 mkdir -p $NVIM_DATA
-
 
 # rhel10やrockylinux10でstowが利用できない場合があるので、手動でシンボリックリンクを作成する
 #stow --restow --target="$NVIM_CONFIG" .
@@ -18,31 +17,42 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 # .git を除外してリンク作成
 for item in "$SCRIPT_DIR"/* "$SCRIPT_DIR"/.*; do
-    base=$(basename "$item")
-    # . と .. と .git は除外
-    if [[ "$base" == "." || "$base" == ".." || "$base" == ".git" || "$base" == *.md  || "$base" == *.sh ]]; then
-        continue
-    fi
-    ln -sf "$item" "$NVIM_CONFIG/$base"
-    echo "Linked $base -> $NVIM_CONFIG/$base"
+	base=$(basename "$item")
+	# . と .. と .git は除外
+	if [[ "$base" == "." || "$base" == ".." || "$base" == ".git" || "$base" == *.md || "$base" == *.sh ]]; then
+		continue
+	fi
+	ln -sf "$item" "$NVIM_CONFIG/$base"
+	echo "Linked $base -> $NVIM_CONFIG/$base"
 done
 
 # nvimをnvで起動するエイリアス
 alias nv='nvim'
 
 # bashrcで読み込むための設定
-cat <<EOF > ~/.bashrc_neovim_dev
+cat <<EOF >~/.bashrc_neovim_dev
 export VIMRUNTIME="/usr/share/nvim/runtime"
 export EDITOR="nvim"
 export DISPLAY="$DISPLAY"
 alias nv='nvim'
 EOF
 
+# OBSIDIAN_VAULT_PATH が設定されている場合のみ bashrc_neovim_dev に追記
+if [ -n "$OBSIDIAN_VAULT_PATH" ]; then
+	echo "export OBSIDIAN_VAULT_PATH=\"$OBSIDIAN_VAULT_PATH\"" >>~/.bashrc_neovim_dev
+	echo "OBSIDIAN_VAULT_PATH=$OBSIDIAN_VAULT_PATH を設定しました"
+else
+	echo "OBSIDIAN_VAULT_PATH が未設定のため obsidian.nvim はインストールされません"
+	echo "obsidian を利用する場合は以下を実行してください:"
+	echo "  export OBSIDIAN_VAULT_PATH=/path/to/your/vault"
+	echo "  source install.sh"
+fi
+
 ADD_LINE="source ~/.bashrc_neovim_dev"
 
 # 既に .bashrc に存在するか確認
 if ! grep -Fxq "$ADD_LINE" ~/.bashrc; then
-    echo $ADD_LINE >> ~/.bashrc
+	echo $ADD_LINE >>~/.bashrc
 fi
 
 #
@@ -67,23 +77,23 @@ mkdir -p $JDTLS_WORK/projects/cli-decompiler/dest
 #
 # install jdtls
 #
-tar -zxf jars/jdt-language-server-1.19.0-202301090450.tar.gz -C $JDTLS_WORK/jdtls 
+tar -zxf jars/jdt-language-server-1.19.0-202301090450.tar.gz -C $JDTLS_WORK/jdtls
 #
 # install java-debug
 #
-cp jars/java-debug/com.microsoft.java.debug.plugin-0.44.0.jar  $JDTLS_WORK/projects/java-debug/com.microsoft.java.debug.plugin/target
+cp jars/java-debug/com.microsoft.java.debug.plugin-0.44.0.jar $JDTLS_WORK/projects/java-debug/com.microsoft.java.debug.plugin/target
 #
 # install java-test
 #
-cp jars/vscode-java-test/*.jar  $JDTLS_WORK/projects/vscode-java-test/server
+cp jars/vscode-java-test/*.jar $JDTLS_WORK/projects/vscode-java-test/server
 #
 # install dg-jdt-ls-decompiler
 #
-cp jars/dg-jdt-ls-decompiler/*.jar  $JDTLS_WORK/projects/dg-jdt-ls-decompiler
+cp jars/dg-jdt-ls-decompiler/*.jar $JDTLS_WORK/projects/dg-jdt-ls-decompiler
 #
 # install lombok
 #
-cp jars/lombok.jar  $JDTLS_WORK/eclipse
+cp jars/lombok.jar $JDTLS_WORK/eclipse
 #
 # install code style
 #

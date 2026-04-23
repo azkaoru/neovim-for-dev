@@ -92,6 +92,11 @@ vim.keymap.set("n", "<leader>8", require("telescope.builtin").lsp_dynamic_worksp
 	{ desc = "Find Type From Workspace" })
 vim.keymap.set("n", "<space>b", ":b#<CR>", { desc = "Buffer Back" })
 
+-- コマンドパレット
+-- <C-p> : ファイル検索（telescope）
+vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files,
+	{ noremap = true, silent = true, desc = "ファイル検索 (telescope)" })
+
 -- Normal モードで Tab / Shift-Tab でバッファ移動
 vim.keymap.set("n", "<Tab>", "<Cmd>BufferNext<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", { noremap = true, silent = true })
