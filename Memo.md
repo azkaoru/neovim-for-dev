@@ -483,4 +483,10 @@ $ cat ~/.config/opencode/default-prompts/plan.txt
 alias gcd='cd $(ghq list -p | peco)'
 ```
 
+## git setting  memo
+
+```
+git config --global http.sslVerify false
+git config --global credential.helper store
+```
 
