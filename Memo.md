@@ -475,4 +475,12 @@ $ cat ~/.config/opencode/default-prompts/plan.txt
 すべて日本語で記載してください
 ```
 
+## gcd alias
+
+~/.bashrc
+
+```
+alias gcd='cd $(ghq list -p | peco)'
+```
+
 
