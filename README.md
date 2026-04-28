@@ -5,13 +5,38 @@
 
 * neovim
 
-fedora & rockylinux
+fedora & rockylinux & ubuntu
+
+他の利用者に影響しないよう、ユーザーのホームディレクトリ以下にインストールします（sudo 不要）。
+
 ```
 NVIM_VER=v0.11.6
 curl https://github.com/neovim/neovim/releases/download/$NVIM_VER/nvim-linux-x86_64.tar.gz -LO
 tar -zxvf nvim-linux-x86_64.tar.gz
-sudo mv ./nvim-linux-x86_64/bin/nvim /usr/local/bin
-sudo cp -r nvim-linux-x86_64/share/nvim /usr/share/
+mkdir -p ~/.local/bin
+cp ./nvim-linux-x86_64/bin/nvim ~/.local/bin/
+mkdir -p ~/.local/share/nvim
+cp -r nvim-linux-x86_64/share/nvim/runtime ~/.local/share/nvim/
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+```
+
+CPUアーキテクチャarm64判別版
+
+```
+NVIM_VER=v0.12.1
+ARCH=$(uname -m)
+case "$ARCH" in
+  x86_64)  NVIM_ARCH="nvim-linux-x86_64" ;;
+  aarch64) NVIM_ARCH="nvim-linux-arm64" ;;
+  *) echo "未対応のアーキテクチャ: $ARCH"; exit 1 ;;
+esac
+curl https://github.com/neovim/neovim/releases/download/$NVIM_VER/${NVIM_ARCH}.tar.gz -LO
+tar -zxvf ${NVIM_ARCH}.tar.gz
+mkdir -p ~/.local/bin
+cp ./${NVIM_ARCH}/bin/nvim ~/.local/bin/
+mkdir -p ~/.local/share/nvim
+cp -r ${NVIM_ARCH}/share/nvim/runtime ~/.local/share/nvim/
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 ```
 
 

@@ -1,6 +1,6 @@
-#!/bin/sh -x
+#!/bin/bash -x
 
-export VIMRUNTIME="/usr/share/nvim/runtime"
+export VIMRUNTIME="$HOME/.local/share/nvim/runtime"
 NVIM_CONFIG=~/.config/nvim
 NVIM_DATA=~/.local/share/nvim
 export DISPLAY=":1" # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
@@ -31,7 +31,7 @@ alias nv='nvim'
 
 # bashrcで読み込むための設定
 cat <<EOF >~/.bashrc_neovim_dev
-export VIMRUNTIME="/usr/share/nvim/runtime"
+export VIMRUNTIME="$HOME/.local/share/nvim/runtime"
 export EDITOR="nvim"
 export DISPLAY="$DISPLAY"
 alias nv='nvim'
@@ -58,8 +58,10 @@ fi
 #
 # copy soncictemplate用のファイルをコピー
 #
-rm -fr ~/.sonictemplate
-cp -pr sonictemplate ~/.sonictemplate
+if [ -d sonictemplate ]; then
+	rm -fr ~/.sonictemplate
+	cp -pr sonictemplate ~/.sonictemplate
+fi
 
 #
 # Java開発用の設定
@@ -108,7 +110,9 @@ cp jars/google-java-format-1.16.0.jar $JDTLS_WORK/eclipse
 cp jars/vineflower-1.10.1.jar $JDTLS_WORK/projects/cli-decompiler
 
 # copy mycustom soncictemplate
-rm -fr ~/.sonictemplate
-cp -pr sonictemplate ~/.sonictemplate
+if [ -d sonictemplate ]; then
+	rm -fr ~/.sonictemplate
+	cp -pr sonictemplate ~/.sonictemplate
+fi
 
 echo "After installation, you can launch your development instance of Neovim with: nv"
