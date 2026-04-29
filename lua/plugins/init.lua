@@ -447,7 +447,7 @@ return {
 		},
 		config = function()
 			-- require('config.alpha-mycustom')
-			require('config.alpha-hanzo')
+			 require('config.alpha-hanzo')
 			-- require'alpha'.setup(require'alpha.themes.startify'.config)
 		end,
 	},

@@ -137,7 +137,57 @@ nv
 ```
 
 
-~/.bashrcに以下が追加される。
+## 起動画面（スタートアップスクリーン）
+
+Neovim 0.12.1 のデフォルト起動画面の N アイコンをカスタマイズして表示します。
+
+```
+              │ ╲ ││
+              ││╲╲││
+              ││ ╲ │
+
+           NVIM v0.12.1
+      ──────────────────
+ Nvim is open source and freely distributable
+      https://neovim.io
+      ──────────────────
+```
+
+N アイコンは、Neovim デフォルトに合わせて左半分が緑、右半分（`╲` 以降）が黄色で表示されます。
+
+### アスキーアートのカスタマイズ
+
+環境変数 `NEOVIM_STARTUP_ASCII_ART` を設定すると、起動画面の右側に任意のアスキーアートを表示できます。
+
+値には `lua/config/` 以下の Lua ファイル名（拡張子 `.lua` を除く）を指定します。ファイルは22行の文字列テーブルを返す形式で作成します。
+
+```bash
+# 犬のアスキーアートを表示（lua/config/hanzo.lua を読み込み）
+export NEOVIM_STARTUP_ASCII_ART=hanzo
+
+# アスキーアートなし（デフォルト）
+unset NEOVIM_STARTUP_ASCII_ART
+```
+
+### カスタムアスキーアートの作成
+
+`lua/config/` に任意の名前でファイルを作成します（例: `lua/config/myart.lua`）。
+
+```lua
+-- lua/config/myart.lua
+-- 22行の文字列テーブルを返す
+return {
+    [[     ( MY ART )     ]],
+    [[                    ]],
+    -- ... 22行まで
+}
+```
+
+作成したファイル名で環境変数を設定します：
+
+```bash
+export NEOVIM_STARTUP_ASCII_ART=myart
+```
 
 ```
 export VIMRUNTIME="/usr/share/nvim/runtime"
