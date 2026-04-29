@@ -16,65 +16,74 @@ local n_logo = {
 }
 
 -- 犬アスキーアート（環境変数 NEOVIM_STARTUP_ASCII_ART で指定されたファイルを読み込み）
-local dog
+local has_dog = false
+local dog = {}
 local art_name = os.getenv("NEOVIM_STARTUP_ASCII_ART")
 if art_name then
 	local ok, mod = pcall(require, "config." .. art_name)
 	if ok then
 		dog = mod
+		has_dog = true
 	else
 		vim.notify("NEOVIM_STARTUP_ASCII_ART: failed to load config/" .. art_name .. ".lua", vim.log.levels.WARN)
 	end
 end
-if not dog then
-	dog = {}
-	for _ = 1, 22 do
-		table.insert(dog, "")
-	end
-end
 
-local sep = [[────────────────────────────────────────────]]
-local open_src = [[Nvim is open source and freely distributable]]
-local url_line = [[https://neovim.io]]
+local sep = [[────────────────────────────────────────────]] -- 44 cols, 132 bytes
+local open_src = [[Nvim is open source and freely distributable]] -- 44 cols, 44 bytes
+local url_line = [[https://neovim.io]] -- 18 cols, 18 bytes
+
+-- 各行を target_width 幅の中央に配置（左右均等パディング）
+local target_width = 44
+local function center_text(text)
+	local dw = vim.fn.strdisplaywidth(text)
+	if dw >= target_width then
+		return text
+	end
+	local left = math.floor((target_width - dw) / 2)
+	local right = target_width - dw - left
+	return string.rep(" ", left) .. text .. string.rep(" ", right)
+end
 
 -- ヘッダー行を組み立て（犬 → Nアイコン → バージョン情報）
 local hanzo = {}
--- 犬（先頭）
-for i = 1, 22 do
-	hanzo[i] = dog[i]
-end
--- N アイコン + バージョン情報
-hanzo[23] = [[                                   ]]
-hanzo[24] = n_logo[1]
-hanzo[25] = n_logo[2]
-hanzo[26] = n_logo[3]
-hanzo[27] = nvim_version
-hanzo[28] = sep
-hanzo[29] = open_src
-hanzo[30] = url_line
-hanzo[31] = sep
-
-theta.header.val = hanzo
-
--- ハイライト設定
 local header_hl = {}
--- 犬（22行）: 白ハイライト
-for _ = 1, 22 do
-	table.insert(header_hl, { { "AlphaDogArt", 0, -1 } })
+
+-- 犬（NEOVIM_STARTUP_ASCII_ART 指定時のみ）
+if has_dog then
+	for i = 1, 22 do
+		table.insert(hanzo, dog[i])
+		table.insert(header_hl, { { "AlphaDogArt", 0, -1 } })
+	end
+	-- 犬とNアイコンの間のスペーサー
+	table.insert(hanzo, center_text(""))
+	table.insert(header_hl, {})
 end
--- spacer
-table.insert(header_hl, {})
--- N アイコン: 左半分=緑, 右半分(╲以降)=黄
-table.insert(header_hl, { { "AlphaNLogo", 0, 4 }, { "AlphaNLogoRight", 4, -1 } })
-table.insert(header_hl, { { "AlphaNLogo", 0, 6 }, { "AlphaNLogoRight", 6, -1 } })
-table.insert(header_hl, { { "AlphaNLogo", 0, 7 }, { "AlphaNLogoRight", 7, -1 } })
+
+-- N アイコン（44 cols にパディング）
+table.insert(hanzo, center_text(n_logo[1]))
+table.insert(hanzo, center_text(n_logo[2]))
+table.insert(hanzo, center_text(n_logo[3]))
+-- N アイコン hl: left pad=19 bytes オフセット
+table.insert(header_hl, { { "AlphaNLogo", 19, 23 }, { "AlphaNLogoRight", 23, 33 } }) -- L1
+table.insert(header_hl, { { "AlphaNLogo", 19, 25 }, { "AlphaNLogoRight", 25, 37 } }) -- L2
+table.insert(header_hl, { { "AlphaNLogo", 19, 26 }, { "AlphaNLogoRight", 26, 33 } }) -- L3
+
 -- バージョン情報
-table.insert(header_hl, { { "AlphaNLogoRight", 0, -1 } }) -- NVIM vX.Y.Z (黄色)
+table.insert(hanzo, center_text(nvim_version))
+table.insert(hanzo, sep) -- 44 cols already
+table.insert(hanzo, open_src) -- 44 cols already
+table.insert(hanzo, center_text(url_line))
+table.insert(hanzo, sep) -- 44 cols already
+table.insert(header_hl, { { "AlphaNLogoRight", 16, 28 } }) -- NVIM vX.Y.Z (黄色)
 table.insert(header_hl, {}) -- separator
 table.insert(header_hl, {}) -- Nvim is open source...
 table.insert(header_hl, {}) -- https://neovim.io
 table.insert(header_hl, {}) -- separator
+
+theta.header.val = hanzo
 theta.header.opts.hl = header_hl
+theta.header.opts.position = "center" -- 中央配置を明示的に設定
 
 -- Quick Links ボタン: 実際の leader キーを使用
 local ld = vim.g.mapleader or ","
