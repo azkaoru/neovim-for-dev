@@ -10,7 +10,7 @@ fedora & rockylinux & ubuntu
 他の利用者に影響しないよう、ユーザーのホームディレクトリ以下にインストールします（sudo 不要）。
 
 ```
-NVIM_VER=v0.11.6
+NVIM_VER=v0.11.7
 curl https://github.com/neovim/neovim/releases/download/$NVIM_VER/nvim-linux-x86_64.tar.gz -LO
 tar -zxvf nvim-linux-x86_64.tar.gz
 mkdir -p ~/.local/bin

@@ -90,3 +90,6 @@
       enable = true,
     },
   })
+
+-- Neovim 0.12 互換パッチ (アーカイブ済み master ブランチの query_predicates クラッシュ対策)
+require("config.treesitter-compat")

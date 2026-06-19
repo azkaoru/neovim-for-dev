@@ -19,6 +19,9 @@ mkdir -p $NVIM_DATA
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 # .git を除外してリンク作成
+# 注: lua/ ディレクトリごとリンクされるため、Neovim 0.12 互換パッチ
+#     (lua/config/treesitter-compat.lua / アーカイブ済み nvim-treesitter master の
+#      query_predicates クラッシュ対策。treesitter.lua から require) も自動的に配置される。
 for item in "$SCRIPT_DIR"/* "$SCRIPT_DIR"/.*; do
 	base=$(basename "$item")
 	# . と .. と .git は除外
