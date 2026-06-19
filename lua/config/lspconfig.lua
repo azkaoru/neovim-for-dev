@@ -176,48 +176,9 @@ vim.lsp.enable('markdown_oxide')
 
 
 -- Function to get Python path from venv or system
+-- (OS 分岐は utils.platform に集約。VIRTUAL_ENV → .venv/venv → システムの順に解決)
 local function get_python_path()
-  local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
-  
-  -- Check if venv-selector has set VIRTUAL_ENV
-  local venv = os.getenv("VIRTUAL_ENV")
-  if venv then
-    local python_path
-    if is_windows then
-      python_path = vim.fs.joinpath(venv, "Scripts", "python.exe")
-    else
-      python_path = vim.fs.joinpath(venv, "bin", "python")
-    end
-    if vim.fn.executable(python_path) == 1 then
-      return python_path
-    end
-  end
-  
-  -- Check for .venv in current directory
-  local cwd = vim.fn.getcwd()
-  
-  if is_windows then
-    local venv_path = vim.fs.joinpath(cwd, ".venv", "Scripts", "python.exe")
-    if vim.fn.executable(venv_path) == 1 then
-      return venv_path
-    end
-    local venv_alt = vim.fs.joinpath(cwd, "venv", "Scripts", "python.exe")
-    if vim.fn.executable(venv_alt) == 1 then
-      return venv_alt
-    end
-  else
-    local venv_path = vim.fs.joinpath(cwd, ".venv", "bin", "python")
-    if vim.fn.executable(venv_path) == 1 then
-      return venv_path
-    end
-    local venv_alt = vim.fs.joinpath(cwd, "venv", "bin", "python")
-    if vim.fn.executable(venv_alt) == 1 then
-      return venv_alt
-    end
-  end
-  
-  -- Default to system python
-  return vim.fn.exepath('python3') or vim.fn.exepath('python') or 'python'
+  return require("utils.platform").resolve_python()
 end
 
 -- Shared Pyright analysis settings

@@ -79,9 +79,11 @@ vim.api.nvim_create_autocmd("BufRead", {
 -- quickfix  window to the right
 vim.api.nvim_set_keymap("n", "<leader>L", ":wincmd L<CR>", { noremap = true, silent = true })
 
--- xml format
-vim.api.nvim_set_keymap("n", "<leader>xf", ":%!xmllint --format --recover --encode UTF-8 -<CR>",
-	{ noremap = true, silent = true })
+-- xml format (xmllint がある場合のみ有効化。Windows では scoop 等で導入可)
+if vim.fn.executable("xmllint") == 1 then
+	vim.api.nvim_set_keymap("n", "<leader>xf", ":%!xmllint --format --recover --encode UTF-8 -<CR>",
+		{ noremap = true, silent = true })
+end
 
 vim.keymap.set("n", "j", "<Plug>(accelerated_jk_gj)")
 vim.keymap.set("n", "k", "<Plug>(accelerated_jk_gk)")
@@ -136,8 +138,11 @@ vim.keymap.set("n", "<leader>rl", function()
 end, { desc = "Run lint" })
 
 
+-- F12 で IME を英数へ切替（ibus は Linux 専用。無い環境では Esc のみ送る）
 vim.keymap.set({ "i", "c" }, "<f12>", function()
-  vim.fn.jobstart({ "ibus", "engine", "xkb:us::eng" })
+  if vim.fn.executable("ibus") == 1 then
+    vim.fn.jobstart({ "ibus", "engine", "xkb:us::eng" })
+  end
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
 end)
 

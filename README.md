@@ -137,6 +137,66 @@ nv
 ```
 
 
+## Windows（ネイティブ）での利用
+
+WSL ではなくネイティブ Windows（PowerShell/cmd）でフル機能（Java/DAP/asciidoctor 含む）を動かす手順。
+設定は OS を自動判定して Windows 向けのパス・コマンドに切り替わる（`lua/utils/platform.lua` に集約）。
+
+### 1. 前提ツールの導入
+
+フル機能を出すには以下が必要。`scoop` か `winget` での導入を推奨。
+
+| 用途 | 必要ツール | 例（scoop） |
+|---|---|---|
+| treesitter のパーサビルド（`:TSUpdate`）| C コンパイラ（zig 推奨 または MSVC Build Tools）| `scoop install zig` |
+| Java（jdtls + デバッグ）| JDK 17（`JAVA_HOME` を設定）| `scoop install temurin17-jdk` |
+| JS/TS デバッグ・markdown-preview・textlint・live-server | Node.js / npm | `scoop install nodejs` |
+| Python（pyright / debugpy）| Python 3.x | `scoop install python` |
+| Go（gopls / dlv）| Go | `scoop install go` |
+| ファイル検索（telescope/fzf）| ripgrep / fd | `scoop install ripgrep fd` |
+| バージョン管理・lazy.nvim | git | `scoop install git` |
+| AsciiDoc（任意）| asciidoctor / asciidoctor-pdf（Ruby gem）| `gem install asciidoctor asciidoctor-pdf` |
+| XML 整形（任意, `<leader>xf`）| xmllint（libxml2）| `scoop install libxml2` |
+
+補足:
+- JDK は `JAVA_HOME` を設定すれば jdtls の起動に使われる。プロジェクト実行用に `JDK8_HOME` / `JDK11_HOME` / `JDK17_HOME` を設定すると各 `JavaSE-*` ランタイムに割り当てられる（未設定時は `C:\Program Files\Java\jdk-*` 等を自動探索）。
+- AsciiDoc の PDF 日本語フォントは `ASCIIDOCTOR_FONTS_DIR` で指定可能（未設定/未検出時は既定フォントにフォールバック）。
+- `ibus`（IME 切替）は Linux 専用のため Windows では自動的に無効化される。
+
+### 2. シンボリックリンクのための開発者モード（推奨）
+
+`install.ps1` は既定でシンボリックリンク配置を行う。管理者権限なしでリンクを作るため
+**Windows の開発者モードを有効化**しておく（設定 → プライバシーとセキュリティ → 開発者向け → 開発者モード）。
+有効化できない場合は後述の `-Copy` でコピー配置にする。
+
+### 3. インストール
+
+```powershell
+# 設定を %LOCALAPPDATA%\nvim に配置し、Java 用 jar を %LOCALAPPDATA%\java-dev に展開
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+
+# 開発者モードを使わない場合はコピー配置
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Copy
+```
+
+### 4. 起動と初期化
+
+```powershell
+# 新しい PowerShell を開く（プロファイルに nv エイリアスが追記される）
+nv
+```
+
+初回起動で lazy.nvim がプラグインを取得する。続けて Neovim 内で:
+
+```
+:Lazy sync
+:TSUpdate
+:checkhealth
+```
+
+を実行する（`:TSUpdate` は C コンパイラが必要）。
+
+
 ## 起動画面（スタートアップスクリーン）
 
 Neovim 0.12.1 のデフォルト起動画面の N アイコンをカスタマイズして表示します。

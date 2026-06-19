@@ -3,7 +3,10 @@ local M = {}
 -- Find a file either using git files or search the filesystem.
 function M.find_files()
   local fzf = require "fzf-lua"
-  if vim.fn.system "git rev-parse --is-inside-work-tree" == true then
+  -- git 管理下かどうかは終了コードで判定する（system() の戻り値は文字列なので
+  -- `== true` 比較は常に偽になっていた。OS 非依存のバグ修正）。
+  vim.fn.system({ "git", "rev-parse", "--is-inside-work-tree" })
+  if vim.v.shell_error == 0 then
     fzf.git_files()
   else
     fzf.files()

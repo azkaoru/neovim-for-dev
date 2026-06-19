@@ -6,6 +6,8 @@ local function is_fedora()
 	return content:match("Fedora") ~= nil
 end
 
+local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+
 local vscode_js_debug_build_cmd = "npm install --legacy-peer-deps && npm run compile"
 
 -- obsidian.nvim のインストール制御
@@ -123,7 +125,14 @@ return {
 	-- Markdown
 	{
 		"iamcco/markdown-preview.nvim",
-		build = "cd app && npm install",
+		-- 公式のインストール関数を使い `cd app && npm install` のシェル依存を排除（Windows でも動作）。
+		-- build 時点では autoload が source されておらず Lua の vim.fn[...] では発火しないため、
+		-- プラグインを rtp に載せ autoload を明示 source してから呼ぶ（E117 回避）。
+		build = function(plugin)
+			vim.opt.runtimepath:append(plugin.dir)
+			vim.cmd("runtime! autoload/mkdp/util.vim")
+			vim.fn["mkdp#util#install"]()
+		end,
 		ft = "markdown",
 		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
 		init = function()
@@ -546,7 +555,7 @@ return {
 			{ "github/copilot.vim" }, -- or github/copilot.vim
 			{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
 		},
-		build = "make tiktoken", -- Only on MacOS or Linux
+		build = (not is_windows) and "make tiktoken" or nil, -- make は Mac/Linux のみ（Windows ではスキップ）
 		lazy = {
 			debug = true, -- Enable debugging
 			-- See Configuration section for rest

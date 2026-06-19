@@ -1,8 +1,52 @@
-local home = os.getenv('HOME')
+local platform = require("utils.platform")
 local jdtls = require('jdtls')
 local root_markers = {'gradlew', 'pom.xml','mvnw', '.git'}
 local root_dir = require('jdtls.setup').find_root(root_markers)
-local workspace_folder = home .. "/.local/share/java-dev/workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+
+-- java 開発用ディレクトリ（OS 非依存。Linux: ~/.local/share/java-dev, Windows: %LOCALAPPDATA%\java-dev）
+local java_dev = platform.java_dev_dir()
+local jdtls_dir = platform.join(java_dev, "jdtls")
+local eclipse_dir = platform.join(java_dev, "eclipse")
+local workspace_folder = platform.join(java_dev, "workspace", vim.fn.fnamemodify(root_dir, ":p:h:t"))
+
+-- JDK ルートの解決。環境変数を最優先し、無ければ OS 別の既定パスを探索する。
+local function first_existing(paths, fallback)
+  for _, p in ipairs(paths) do
+    if p and p ~= "" and vim.fn.isdirectory(p) == 1 then
+      return p
+    end
+  end
+  return fallback
+end
+local function jdk_path(env_name, win_defaults, unix_defaults)
+  local env = os.getenv(env_name)
+  if env and env ~= "" then
+    return env
+  end
+  local defaults = platform.is_windows and win_defaults or unix_defaults
+  return first_existing(defaults, defaults[1])
+end
+
+-- 各 JavaSE バージョンの JDK ルート
+local jdk8  = jdk_path("JDK8_HOME",  { "C:\\Program Files\\Java\\jdk-1.8", "C:\\Program Files\\Eclipse Adoptium\\jdk-8" }, { "/usr/lib/jvm/java-1.8.0-openjdk" })
+local jdk11 = jdk_path("JDK11_HOME", { "C:\\Program Files\\Java\\jdk-11", "C:\\Program Files\\Eclipse Adoptium\\jdk-11" }, { "/usr/lib/jvm/java-11-openjdk" })
+local jdk17 = jdk_path("JDK17_HOME", { "C:\\Program Files\\Java\\jdk-17", "C:\\Program Files\\Eclipse Adoptium\\jdk-17" }, { "/usr/lib/jvm/java-17-openjdk" })
+
+-- jdtls 起動に使う java 実行ファイル（JAVA_HOME 優先、無ければ JDK17）
+local function java_bin(jdk_root)
+  local java_home = os.getenv("JAVA_HOME")
+  local root = (java_home ~= nil and java_home ~= "") and java_home or jdk_root
+  return platform.join(root, "bin", platform.is_windows and "java.exe" or "java")
+end
+
+-- jdtls の構成ディレクトリ（OS 別）
+local jdtls_config_dir = platform.join(
+  jdtls_dir,
+  platform.is_windows and "config_win" or (platform.is_mac and "config_mac" or "config_linux")
+)
+
+-- equinox launcher jar（バージョン差を吸収するため glob で解決）
+local launcher_jar = vim.fn.glob(platform.join(jdtls_dir, "plugins", "org.eclipse.equinox.launcher_*.jar"))
 
 local remap = require("me.util").remap
 -- Use an on_attach function to only map the following keys
@@ -33,12 +77,13 @@ function get_libs()
     end
 end
 
+local decompiler_dir = platform.join(java_dev, "projects", "dg-jdt-ls-decompiler")
 local bundles = {
-  vim.fn.glob(home .. '/.local/share/java-dev/projects/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar'),
-  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.cfr-0.0.3.jar',
-  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.common-0.0.3.jar',
-  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.fernflower-0.0.3.jar',
-  home .. '/.local/share/java-dev/projects/dg-jdt-ls-decompiler/dg.jdt.ls.decompiler.procyon-0.0.3.jar',
+  vim.fn.glob(platform.join(java_dev, "projects", "java-debug", "com.microsoft.java.debug.plugin", "target", "com.microsoft.java.debug.plugin-*.jar")),
+  platform.join(decompiler_dir, "dg.jdt.ls.decompiler.cfr-0.0.3.jar"),
+  platform.join(decompiler_dir, "dg.jdt.ls.decompiler.common-0.0.3.jar"),
+  platform.join(decompiler_dir, "dg.jdt.ls.decompiler.fernflower-0.0.3.jar"),
+  platform.join(decompiler_dir, "dg.jdt.ls.decompiler.procyon-0.0.3.jar"),
 }
 --vim.list_extend(bundles, vim.split(vim.fn.glob(home .. '/.local/share/java-dev/projects/vscode-java-test/server/*.jar'), "\n"))
 
@@ -64,7 +109,7 @@ local config = {
     java = {
       format = {
         settings = {
-          url = "/.local/share/java-dev/eclipse/eclipse-java-google-style.xml",
+          url = platform.join(eclipse_dir, "eclipse-java-google-style.xml"),
           profile = "GoogleStyle",
         },
       },
@@ -131,15 +176,15 @@ local config = {
         runtimes = {
           {
             name = "JavaSE-11",
-            path = "/usr/lib/jvm/java-11-openjdk",
+            path = jdk11,
           },
           {
             name = "JavaSE-17",
-            path = "/usr/lib/jvm/java-17-openjdk",
+            path = jdk17,
           },
           {
             name = "JavaSE-1.8",
-            path = "/usr/lib/jvm/java-1.8.0-openjdk"
+            path = jdk8,
           },
         }
       }
@@ -148,7 +193,7 @@ local config = {
     extendedClientCapabilities = extendedClientCapabilities,
   },
   cmd = {
-    "/usr/lib/jvm/java-17-openjdk/bin/java",
+    java_bin(jdk17),
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -162,9 +207,9 @@ local config = {
     '--add-modules=ALL-SYSTEM',
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-    '-javaagent:' .. home .. '/.local/share/java-dev/eclipse/lombok.jar',
-    '-jar',  home .. '/.local/share/java-dev/jdtls/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
-    '-configuration', home .. '/.local/share/java-dev/jdtls/config_linux',
+    '-javaagent:' .. platform.join(eclipse_dir, "lombok.jar"),
+    '-jar', launcher_jar,
+    '-configuration', jdtls_config_dir,
     '-data', workspace_folder,
   },
 }

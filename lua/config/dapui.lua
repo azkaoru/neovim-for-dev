@@ -1,4 +1,5 @@
   -- fetch the dap plugin
+  local platform = require("utils.platform")
   local dap = require('dap')
   -- Add adapter to delve
   dap.adapters.delve = {
@@ -14,7 +15,7 @@
   dap.adapters.chrome = {
     type = "executable",
     command = "node",
-    args = { os.getenv("HOME") .. "/vscode-chrome-debug/out/src/chromeDebug.js" }
+    args = { platform.join(platform.home(), "vscode-chrome-debug", "out", "src", "chromeDebug.js") }
   }
 
   -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
@@ -43,40 +44,44 @@
   }
 
 
-dap.adapters.bashdb = {
-  type = 'executable';
-  command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter';
-  name = 'bashdb';
-}
-
-
-dap.configurations.sh = {
-  {
-    type = 'bashdb';
-    request = 'launch';
-    name = "Launch file";
-    showDebugOutput = true;
-    pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';
-    pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';
-    trace = true;
-    file = "${file}";
-    program = "${file}";
-    cwd = '${workspaceFolder}';
-    pathCat = "cat";
-    pathBash = "/bin/bash";
-    pathMkfifo = "mkfifo";
-    pathPkill = "pkill";
-    args = {};
-    env = {};
-    terminalKind = "integrated";
+-- bash デバッグは bash 前提のため Windows では設定しない（ネイティブ Windows に bash なし）
+if not platform.is_windows then
+  local mason = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter"
+  dap.adapters.bashdb = {
+    type = 'executable';
+    command = mason .. '/bash-debug-adapter';
+    name = 'bashdb';
   }
-}
+
+  dap.configurations.sh = {
+    {
+      type = 'bashdb';
+      request = 'launch';
+      name = "Launch file";
+      showDebugOutput = true;
+      pathBashdb = mason .. '/extension/bashdb_dir/bashdb';
+      pathBashdbLib = mason .. '/extension/bashdb_dir';
+      trace = true;
+      file = "${file}";
+      program = "${file}";
+      cwd = '${workspaceFolder}';
+      pathCat = "cat";
+      pathBash = "/bin/bash";
+      pathMkfifo = "mkfifo";
+      pathPkill = "pkill";
+      args = {};
+      env = {};
+      terminalKind = "integrated";
+    }
+  }
+end
 
 
 -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ansible
 dap.adapters.ansible = {
   type = "executable",
-  command = "python3.11", -- or "/path/to/virtualenv/bin/python",
+  -- Windows は python、それ以外は python3.11（無ければ resolve_python にフォールバック）
+  command = platform.is_windows and "python" or (vim.fn.executable("python3.11") == 1 and "python3.11" or platform.resolve_python()),
   args = { "-m", "ansibug", "dap" },
 }
 
@@ -100,7 +105,8 @@ dap.configurations.python = {
       return vim.fn.expand('%:p')  -- 現在開いているファイルの絶対パスを返す
     end,
     pythonPath = function()
-      return vim.fn.getcwd() .. '/.venv/bin/python'  -- 仮想環境のPython
+      -- venv / カレント / システムの順に解決（OS 非依存）
+      return platform.resolve_python()
     end,
     console = 'integratedTerminal',
   },
