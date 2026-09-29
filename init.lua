@@ -26,6 +26,15 @@ map('n', '<leader>o', [[:Oil<CR>]], {})
 
 vim.api.nvim_set_option('clipboard', 'unnamedplus')
 
+-- マウスで選択した範囲をPRIMARY選択("*)にコピーし、中ボタンでペーストできるようにする
+vim.keymap.set('v', '<LeftRelease>', '"*ygv', { desc = 'Copy mouse selection to PRIMARY' })
+
+-- Claude Code等の外部ツールによる変更をバッファへ自動反映する
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold' }, {
+  command = 'checktime',
+})
+
 vim.diagnostic.config({ virtual_text = false })
 
 vim.cmd("filetype plugin on")

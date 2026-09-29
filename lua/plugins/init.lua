@@ -42,11 +42,58 @@ return {
 
 	-- Git
 	{
-		"TimUntersberger/neogit",
+		"NeogitOrg/neogit",
 		cmd = "Neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"sindrets/diffview.nvim",
+		},
 		config = function()
 			require("config/neogit")
 		end,
+	},
+	-- 変更行のサイン表示・hunk単位のプレビュー/stage/reset
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "BufReadPre",
+		opts = {
+			on_attach = function(bufnr)
+				local gs = require("gitsigns")
+				local function bmap(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+				end
+				bmap("n", "]h", function() gs.nav_hunk("next") end, "Next hunk")
+				bmap("n", "[h", function() gs.nav_hunk("prev") end, "Prev hunk")
+				bmap("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
+				bmap("n", "<leader>hs", gs.stage_hunk, "Stage hunk")
+				bmap("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
+				bmap("n", "<leader>hb", gs.blame_line, "Blame line")
+			end,
+		},
+	},
+	-- 変更ファイル一覧とside-by-side diffで全体レビュー
+	{
+		"sindrets/diffview.nvim",
+		cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
+		keys = {
+			{ "<leader>vv", "<cmd>DiffviewOpen<cr>",          desc = "Diffview open" },
+			{ "<leader>vh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview file history" },
+			{ "<leader>vq", "<cmd>DiffviewClose<cr>",         desc = "Diffview close" },
+		},
+	},
+	-- Claude Code連携(IDE連携プロトコルでdiff表示・accept/deny)
+	{
+		"coder/claudecode.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		config = true,
+		keys = {
+			{ "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+			{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+			{ "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",           desc = "Send to Claude" },
+			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>",  desc = "Accept diff" },
+			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",    desc = "Deny diff" },
+		},
 	},
 
 	-- WhichKey

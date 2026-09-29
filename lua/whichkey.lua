@@ -156,6 +156,11 @@ wk.add({
 	-- { "<space>Dg", "<cmd>DogeGenerate<CR>", desc = "DogeGenerate docgen", mode = "n" },
 	-- CopilotChat.nvim keymappings
 	--{ '<leader>cco', ':CopilotChat<CR>', { noremap = true, silent = true })
+	-- Claude Code / git review
+	{ "<leader>a", group = "Claude" }, -- group
+	{ "<leader>h", group = "Git hunk" }, -- group
+	{ "<leader>v", group = "Diffview" }, -- group
+
 	{ "<leader>c", group = "Copilot" }, -- group
 	{ "<leader>cco", ":CopilotChatOpen<CR>", desc = "CopilotChatを開く", mode = "n" },
 
