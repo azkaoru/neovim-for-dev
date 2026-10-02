@@ -196,6 +196,11 @@ return {
 			vim.g.mkdp_open_to_the_world = 0
 			vim.g.mkdp_echo_preview_url = 1  -- URLを表示してデバッグ
 			vim.g.mkdp_browser = ''  -- デフォルトブラウザを使用
+			-- カーソル行をプレビューの上端に合わせて同期スクロール
+			vim.g.mkdp_preview_options = {
+				disable_sync_scroll = 0,
+				sync_scroll_type = 'top',
+			}
 		end,
 	},
 	-- バッファ内で Markdown を整形表示（見出し・表・コードブロック等）
