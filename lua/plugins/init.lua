@@ -205,6 +205,8 @@ return {
 		ft = "markdown",
 		cmd = { "RenderMarkdown" },
 		opts = {
+			-- デフォルトは無効。<space>pr（:RenderMarkdown toggle）で有効化する
+			enabled = false,
 			file_types = { "markdown" },
 		},
 	},
