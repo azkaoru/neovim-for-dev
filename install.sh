@@ -3,7 +3,7 @@
 export VIMRUNTIME="$HOME/.local/share/nvim/runtime"
 NVIM_CONFIG=~/.config/nvim
 NVIM_DATA=~/.local/share/nvim
-export DISPLAY=":1" # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
+export DISPLAY=":2" # コピー&ペーストにosのclipboardを利用するためにDISPLAYを設定
 export EDITOR="nvim"
 
 rm -fr $NVIM_CONFIG
