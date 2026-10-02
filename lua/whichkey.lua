@@ -168,6 +168,7 @@ wk.add({
 	{ "<space>pm", "<Plug>MarkdownPreview", desc = "Markdownプレビュー開始", mode = "n" },
 	{ "<space>ps", "<Plug>MarkdownPreviewStop", desc = "Markdownプレビュー停止", mode = "n" },
 	{ "<space>pt", "<Plug>MarkdownPreviewToggle", desc = "Markdownプレビュー切り替え", mode = "n" },
+	{ "<space>pr", "<cmd>RenderMarkdown toggle<CR>", desc = "Markdownバッファ内表示切り替え", mode = "n" },
 
 	{ "<space>s", group = "STEP DEBUG" }, -- group
          { "<space>so", "<cmd>lua require'dap'.step_over()<cr>", desc= "Step over",mode = "n"},

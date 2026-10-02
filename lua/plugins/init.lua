@@ -198,6 +198,16 @@ return {
 			vim.g.mkdp_browser = ''  -- デフォルトブラウザを使用
 		end,
 	},
+	-- バッファ内で Markdown を整形表示（見出し・表・コードブロック等）
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		ft = "markdown",
+		cmd = { "RenderMarkdown" },
+		opts = {
+			file_types = { "markdown" },
+		},
+	},
 
 	-- Status line
 	{
