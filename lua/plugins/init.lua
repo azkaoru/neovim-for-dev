@@ -85,6 +85,8 @@ return {
 	{
 		"coder/claudecode.nvim",
 		dependencies = { "folke/snacks.nvim" },
+		-- 外部ターミナルのclaudeから/ideで接続できるよう起動後にWebSocketサーバーを立ち上げる
+		event = "VeryLazy",
 		config = true,
 		keys = {
 			{ "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },

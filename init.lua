@@ -29,6 +29,13 @@ vim.api.nvim_set_option('clipboard', 'unnamedplus')
 -- マウスで選択した範囲をPRIMARY選択("*)にコピーし、中ボタンでペーストできるようにする
 vim.keymap.set('v', '<LeftRelease>', '"*ygv', { desc = 'Copy mouse selection to PRIMARY' })
 
+-- Copilot専用のプロキシ(環境変数COPILOT_PROXYが設定されている場合のみ適用)
+-- SSLインスペクションを行うプロキシ経由だと証明書エラーになる環境向け
+local copilotProxy = os.getenv('COPILOT_PROXY')
+if copilotProxy ~= nil and copilotProxy ~= '' then
+  vim.g.copilot_proxy = copilotProxy
+end
+
 -- Claude Code等の外部ツールによる変更をバッファへ自動反映する
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold' }, {

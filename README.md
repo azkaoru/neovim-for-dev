@@ -23,7 +23,8 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 CPUアーキテクチャarm64判別版
 
 ```
-NVIM_VER=v0.12.1
+# 0.12.1だとnode:range() が nilになる。NeovimのTreesitter API変更が古いAPI（node:range()）を呼び出そうとして失敗する。
+NVIM_VER=v0.11.7
 ARCH=$(uname -m)
 case "$ARCH" in
   x86_64)  NVIM_ARCH="nvim-linux-x86_64" ;;
